@@ -17,6 +17,17 @@ export default function LiveBackground() {
       hue: number;
     }>
   >([]);
+  const dropsRef = useRef<
+    Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      len: number;
+      alpha: number;
+      hue: number;
+    }>
+  >([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -44,6 +55,19 @@ export default function LiveBackground() {
           tw: Math.random() * 2 + 0.6,
           ph: Math.random() * Math.PI * 2,
           hue: [330, 270, 170][Math.floor(Math.random() * 3)],
+        };
+      });
+      const dCount = Math.floor(Math.sqrt(w * h) * 0.03);
+      dropsRef.current = Array.from({ length: dCount }).map(() => {
+        const hue = [330, 270, 170][Math.floor(Math.random() * 3)];
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h * -0.2,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: Math.random() * 0.6 + 0.4,
+          len: Math.random() * 40 + 30,
+          alpha: Math.random() * 0.4 + 0.35,
+          hue,
         };
       });
     };
@@ -99,6 +123,13 @@ export default function LiveBackground() {
         const y3 = h * 0.75 + Math.cos(t * 1.2) * h * 0.12 + py * 0.5;
         drawBlob(x3, y3, rBase * 0.9, "rgba(78,205,196,0.75)", 0.45);
 
+        const rg = ctx.createRadialGradient(w * 0.5, h * 0.5, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.6);
+        rg.addColorStop(0, "rgba(255,255,255,0.12)");
+        rg.addColorStop(0.4, "rgba(255,255,255,0.06)");
+        rg.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = rg;
+        ctx.fillRect(0, 0, w, h);
+
         ctx.globalCompositeOperation = "source-over";
         ctx.globalCompositeOperation = "lighter";
         for (let p of particlesRef.current) {
@@ -118,6 +149,25 @@ export default function LiveBackground() {
           if (p.x > w + 10) p.x = -10;
           if (p.y < -10) p.y = h + 10;
           if (p.y > h + 10) p.y = -10;
+        }
+        for (let d of dropsRef.current) {
+          const lg = ctx.createLinearGradient(d.x, d.y - d.len, d.x, d.y);
+          lg.addColorStop(0, `hsla(${d.hue}, 80%, 85%, 0)`);
+          lg.addColorStop(1, `hsla(${d.hue}, 90%, 70%, ${d.alpha})`);
+          ctx.fillStyle = lg;
+          ctx.fillRect(d.x - 0.9, d.y - d.len, 1.8, d.len);
+          d.vy += 0.008;
+          d.x += d.vx + px * 0.0002;
+          d.y += d.vy + py * 0.0001;
+          if (d.y > h + 20) {
+            d.y = -30;
+            d.x = Math.random() * w;
+            d.vx = (Math.random() - 0.5) * 0.25;
+            d.vy = Math.random() * 0.6 + 0.4;
+            d.len = Math.random() * 40 + 30;
+            d.alpha = Math.random() * 0.4 + 0.35;
+            d.hue = [330, 270, 170][Math.floor(Math.random() * 3)];
+          }
         }
         ctx.globalCompositeOperation = "source-over";
 

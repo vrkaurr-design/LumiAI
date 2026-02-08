@@ -1,10 +1,13 @@
 import Link from "next/link";
 
+import { useUI } from "@/context/UIContext";
+
 export default function Header() {
+  const { openLogin } = useUI();
   return (
     <header className="fixed top-0 w-full z-50 bg-white/75 dark:bg-dark/75 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-glow-soft">
+        <Link href="/" className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-glow-soft">
           Perfect Corp
         </Link>
         
@@ -20,7 +23,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <button className="px-4 py-2 bg-dark dark:bg-white text-white dark:text-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
+        <button onClick={openLogin} className="px-4 py-2 bg-dark dark:bg-white text-white dark:text-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
           Get Started
         </button>
       </div>

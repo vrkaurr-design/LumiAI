@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/common/Header";
-import LiveBackground from "@/components/common/LiveBackground";
+import ClientLayout from "./ClientLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LiveBackground />
-        <Header />
-        <main className="min-h-screen pt-16">{children}</main>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
