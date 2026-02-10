@@ -44,7 +44,7 @@ export default function CameraCheck() {
       <div className="w-full max-w-2xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/75 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10">
         <h1 className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">Camera Check</h1>
         <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">
-          Allow camera access and verify your preview before continuing.
+          Allow camera access and verify your setup before continuing.
         </p>
 
         <div className="rounded-xl overflow-hidden bg-black/20 dark:bg-black/50 mb-4 aspect-video flex items-center justify-center">
@@ -52,7 +52,7 @@ export default function CameraCheck() {
           {!ready && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="px-4 py-2 rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold">
-                {error ? "Camera not available" : "Camera preview not started"}
+                {error ? "Camera not available" : "Camera feed not started"}
               </div>
             </div>
           )}
@@ -74,11 +74,11 @@ export default function CameraCheck() {
               ready ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"
             }`}
           >
-            Proceed to Analysis
+            Begin Analysis
           </Link>
         </div>
         
-        <FooterPager previousHref="/selfie-prep" previousLabel="Previous: Selfie Prep" nextHref={ready ? "/skin-analysis" : undefined} nextLabel="Next: Analysis" />
+        <FooterPager hidePrevious nextHref={ready ? "/skin-analysis" : undefined} nextLabel="Begin Analysis" />
       </div>
     </div>
   );

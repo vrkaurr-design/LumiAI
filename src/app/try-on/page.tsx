@@ -11,6 +11,49 @@ type MakeupSet = {
   contour: Product[];
 };
 
+function svgThumb(kind: string, tone: "warm" | "cool" | "neutral") {
+  const bg =
+    tone === "warm" ? "#F9E3D0" : tone === "cool" ? "#E5E7F7" : "#EFE9E4";
+  const fg =
+    kind === "foundation"
+      ? tone === "warm"
+        ? "#D8B074"
+        : tone === "cool"
+        ? "#D4C7D9"
+        : "#D7C2AE"
+      : kind === "concealer"
+      ? tone === "warm"
+        ? "#FFC099"
+        : tone === "cool"
+        ? "#E6DCEB"
+        : "#EAD7C8"
+      : kind === "corrector"
+      ? tone === "warm"
+        ? "#FF9A6E"
+        : tone === "cool"
+        ? "#F5B8C8"
+        : "#F1BFA9"
+      : kind === "lipstick"
+      ? tone === "warm"
+        ? "#C7362E"
+        : tone === "cool"
+        ? "#8A3B6E"
+        : "#B94A4A"
+      : kind === "fixer"
+      ? tone === "warm"
+        ? "#9EC7D4"
+        : tone === "cool"
+        ? "#7FA9C7"
+        : "#92B7C4"
+      : tone === "warm"
+      ? "#8C6239"
+      : tone === "cool"
+      ? "#7A6D6A"
+      : "#8B6F5A";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect x="0" y="0" width="64" height="64" rx="12" fill="${bg}"/><g><rect x="22" y="12" width="20" height="36" rx="8" fill="${fg}"/><rect x="24" y="8" width="16" height="6" rx="3" fill="#333" opacity="0.25"/></g></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
 const shadeText: Record<string, { foundation: string; concealer: string; corrector: string; lipstick: string; fixer: string; contour: string }> = {
   warm: {
     foundation: "Golden/Yellow base",
@@ -140,6 +183,32 @@ export default function TryOn() {
 
   const s = shadeText[tone];
   const p = makeupProducts[tone];
+  const palette: Record<"warm" | "cool" | "neutral", { label: string; color: string }[]> = {
+    warm: [
+      { label: "Golden Beige", color: "#D8B074" },
+      { label: "Honey", color: "#C78B4E" },
+      { label: "Coral", color: "#FF7F6E" },
+      { label: "Peach", color: "#FFC099" },
+      { label: "Warm Red", color: "#C7362E" },
+      { label: "Bronze", color: "#8C6239" },
+    ],
+    cool: [
+      { label: "Porcelain", color: "#E9D8CF" },
+      { label: "Cool Ivory", color: "#E6DCEB" },
+      { label: "Berry", color: "#8A3B6E" },
+      { label: "Rose", color: "#E58CA6" },
+      { label: "Blue‑Red", color: "#A1102D" },
+      { label: "Ash Brown", color: "#7A6D6A" },
+    ],
+    neutral: [
+      { label: "Neutral Beige", color: "#D7C2AE" },
+      { label: "Nude", color: "#E3D0C5" },
+      { label: "Mauve", color: "#B58AA5" },
+      { label: "Balanced Red", color: "#B94A4A" },
+      { label: "Soft Tan", color: "#C29977" },
+      { label: "Balanced Brown", color: "#8B6F5A" },
+    ],
+  };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
@@ -157,6 +226,17 @@ export default function TryOn() {
         <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">
           Tailored to your undertone: <span className="font-semibold capitalize">{tone}</span>
         </p>
+        <div className="mb-6">
+          <div className="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200 text-center">Shade Match Palette</div>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {palette[tone].map((sw, i) => (
+              <div key={`sw-${i}`} className="flex flex-col items-center">
+                <div className="w-12 h-12 rounded-md border border-white/40 dark:border-white/10 shadow-sm" style={{ backgroundColor: sw.color }} />
+                <div className="mt-1 text-[10px] text-gray-700 dark:text-gray-300">{sw.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in">
             <div className="text-xl font-bold mb-1">Foundations</div>
@@ -164,8 +244,13 @@ export default function TryOn() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.foundations.map((it, i) => (
                 <div key={`fd-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgThumb("foundation", tone)} alt="Foundation" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -176,8 +261,13 @@ export default function TryOn() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.concealer.map((it, i) => (
                 <div key={`cn-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgThumb("concealer", tone)} alt="Concealer" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -188,8 +278,13 @@ export default function TryOn() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.corrector.map((it, i) => (
                 <div key={`cc-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgThumb("corrector", tone)} alt="Corrector" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -200,8 +295,13 @@ export default function TryOn() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.lipstick.map((it, i) => (
                 <div key={`lp-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgThumb("lipstick", tone)} alt="Lipstick" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -212,8 +312,13 @@ export default function TryOn() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.fixer.map((it, i) => (
                 <div key={`fx-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgThumb("fixer", tone)} alt="Fixer" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

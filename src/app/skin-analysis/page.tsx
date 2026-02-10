@@ -106,6 +106,19 @@ export default function SkinAnalysis() {
                   <span className="text-xs px-2 py-0.5 rounded-full bg-dark text-white dark:bg-white dark:text-dark">
                     {result.tone.toUpperCase()}
                   </span>
+                  {skinType && (
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full text-white ${
+                        skinType === "oily"
+                          ? "bg-yellow-600"
+                          : skinType === "dry"
+                          ? "bg-blue-600"
+                          : "bg-teal-600"
+                      }`}
+                    >
+                      {skinType.toUpperCase()}
+                    </span>
+                  )}
                   <span
                     className="inline-block w-6 h-6 rounded-md border border-white/40 dark:border-white/10"
                     style={{ backgroundColor: `rgb(${result.rgb.r}, ${result.rgb.g}, ${result.rgb.b})` }}
@@ -127,7 +140,7 @@ export default function SkinAnalysis() {
           )}
         </div>
 
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             href="/try-on"
             className="group block p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 hover:from-pink-200/60 hover:to-purple-200/60 hover:border-purple-300 shadow-xl hover:shadow-2xl transition-all text-center"
@@ -143,6 +156,14 @@ export default function SkinAnalysis() {
             <div className="w-12 h-12 mx-auto bg-secondary/30 group-hover:bg-secondary/50 rounded-xl flex items-center justify-center mb-2 text-2xl">🧴</div>
             <div className="font-bold text-dark dark:text-white">Skin Care</div>
             <div className="text-sm text-gray-700 dark:text-gray-300">Routine and products tailored to your skin</div>
+          </Link>
+          <Link
+            href="/feedback"
+            className="group block p-4 rounded-xl border card-pop bg-gradient-to-br from-indigo-50 to-slate-50 dark:from-indigo-900/40 dark:to-slate-900/40 border-indigo-100 dark:border-indigo-800 hover:from-indigo-200/60 hover:to-slate-200/60 hover:border-indigo-300 shadow-xl hover:shadow-2xl transition-all text-center"
+          >
+            <div className="w-12 h-12 mx-auto bg-indigo-400/40 group-hover:bg-indigo-500/60 rounded-xl flex items-center justify-center mb-2 text-2xl">💬</div>
+            <div className="font-bold text-dark dark:text-white">Share Review</div>
+            <div className="text-sm text-gray-700 dark:text-gray-300">Leave feedback and connect with our team</div>
           </Link>
         </div>
       </div>

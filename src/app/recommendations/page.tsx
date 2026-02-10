@@ -14,6 +14,25 @@ type CareSet = {
   moisturiser: CareItem[];
 };
 
+function svgCareThumb(kind: keyof CareSet, type: SkinType) {
+  const bg = type === "dry" ? "#F3E7DA" : type === "oily" ? "#E6F5F0" : "#EFF3EA";
+  const fg =
+    kind === "toner"
+      ? "#9EC7D4"
+      : kind === "cleanser"
+      ? "#C1D3E0"
+      : kind === "facewash"
+      ? "#B8E0E6"
+      : kind === "facepacks"
+      ? "#D9BFA6"
+      : kind === "masks"
+      ? "#C9C4E0"
+      : kind === "sunscreen"
+      ? "#F6D072"
+      : "#D0C3A8";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect x="0" y="0" width="64" height="64" rx="12" fill="${bg}"/><g><path d="M22 14h20v8H22z" fill="#333" opacity="0.25"/><rect x="24" y="22" width="16" height="28" rx="6" fill="${fg}"/></g></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
 const careText: Record<SkinType, { toner: string; cleanser: string; facewash: string; facepacks: string; masks: string; sunscreen: string; moisturiser: string }> = {
   dry: {
     toner: "Hydrating toner with hyaluronic acid",
@@ -167,8 +186,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.toner.map((it, i) => (
                 <div key={`to-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("toner", type)} alt="Toner" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -179,8 +203,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.cleanser.map((it, i) => (
                 <div key={`cl-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("cleanser", type)} alt="Cleanser" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -191,8 +220,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.facewash.map((it, i) => (
                 <div key={`fw-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("facewash", type)} alt="Facewash" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -203,8 +237,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.facepacks.map((it, i) => (
                 <div key={`fp-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("facepacks", type)} alt="Facepacks" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -215,8 +254,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.masks.map((it, i) => (
                 <div key={`mk-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("masks", type)} alt="Masks" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -227,8 +271,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.sunscreen.map((it, i) => (
                 <div key={`sc-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("sunscreen", type)} alt="Sunscreen" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -239,8 +288,13 @@ export default function Recommendations() {
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.moisturiser.map((it, i) => (
                 <div key={`ms-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
-                  <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                  <div className="flex items-center gap-2">
+                    <img src={svgCareThumb("moisturiser", type)} alt="Moisturiser" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <div>
+                      <div className="text-sm font-semibold">{it.name}</div>
+                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.detail}</div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

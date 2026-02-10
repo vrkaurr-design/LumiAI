@@ -12,6 +12,9 @@ export default function Header() {
         </Link>
         
         <nav className="hidden md:flex space-x-8">
+          <Link href="/" className="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors font-medium text-glow-soft">
+            Home
+          </Link>
           <Link href="/try-on" className="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors font-medium text-glow-soft">
             Try-On
           </Link>
@@ -21,10 +24,21 @@ export default function Header() {
           <Link href="/recommendations" className="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors font-medium text-glow-soft">
             Shop
           </Link>
+          <Link href="/feedback" className="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors font-medium text-glow-soft">
+            Feedback
+          </Link>
+          <Link href="/access" className="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors font-medium text-glow-soft">
+            Access
+          </Link>
         </nav>
 
-        <button onClick={openLogin} className="px-4 py-2 bg-dark dark:bg-white text-white dark:text-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
-          Get Started
+        <button
+          onClick={openLogin}
+          aria-label="Open authentication"
+          title="Sign in to access your profile or sign up to create a new account."
+          className="px-4 py-2 bg-dark dark:bg-white text-white dark:text-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+        >
+          Sign In / Sign Up
         </button>
       </div>
     </header>

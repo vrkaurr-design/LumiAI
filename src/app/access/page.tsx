@@ -3,10 +3,12 @@ import Link from "next/link";
 import FooterPager from "@/components/common/FooterPager";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUI } from "@/context/UIContext";
 
 export default function Access() {
   const [showPwd, setShowPwd] = useState(false);
   const router = useRouter();
+  const { openLogin } = useUI();
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
@@ -35,6 +37,7 @@ export default function Access() {
               required
               className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary text-dark dark:text-white"
               placeholder="you@example.com"
+              title="Use your email to sign in if you already have an account, or sign up to create one."
             />
           </div>
           <div>
@@ -47,6 +50,7 @@ export default function Access() {
                 required
                 className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/60 px-3 py-2 pr-10 outline-none focus:ring-2 focus:ring-secondary text-dark dark:text-white"
                 placeholder="••••••••"
+                title="Enter a strong password. Toggle the eye icon to view or hide your entry."
               />
               <button
                 type="button"
@@ -70,7 +74,7 @@ export default function Access() {
           </div>
           <div className="flex items-center justify-between">
             <label className="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-              <input type="checkbox" className="rounded" />
+              <input type="checkbox" className="rounded" title="Stay signed in on this device." />
               Remember me
             </label>
             <Link href="/" className="text-sm text-primary font-semibold">
@@ -81,22 +85,21 @@ export default function Access() {
             type="submit"
             className="w-full mt-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white font-semibold hover:opacity-90 transition-opacity shadow-md"
           >
-            Proceed to Skin Analysis
+            Begin Now
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-700 dark:text-gray-300">
           Don’t have an account?{" "}
-          <Link href="/" className="text-secondary font-semibold">
+          <button type="button" onClick={openLogin} className="text-secondary font-semibold">
             Create one
-          </Link>
+          </button>
         </div>
 
         <FooterPager
-          previousHref="/"
-          previousLabel="Previous: Home"
+          hidePrevious
           nextHref="/selfie-prep"
-          nextLabel="Next: Selfie Prep"
+          nextLabel="Be A Part of AI Analysis"
         />
       </div>
     </div>

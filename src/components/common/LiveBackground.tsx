@@ -28,6 +28,9 @@ export default function LiveBackground() {
       hue: number;
     }>
   >([]);
+  const faceBoxRef = useRef<{ x: number; y: number; w: number; h: number }>({ x: 0, y: 0, w: 0, h: 0 });
+  const featuresRef = useRef<Array<Array<{ x: number; y: number }>>>([]);
+  const nodesRef = useRef<Array<{ x: number; y: number }>>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -70,6 +73,86 @@ export default function LiveBackground() {
           hue,
         };
       });
+      const minSide = Math.min(w, h);
+      const bw = minSide * 0.45;
+      const bh = minSide * 0.58;
+      const bx = w * 0.5 - bw * 0.5;
+      const by = h * 0.5 - bh * 0.5 - minSide * 0.04;
+      faceBoxRef.current = { x: bx, y: by, w: bw, h: bh };
+      const N = (arr: Array<[number, number]>) =>
+        arr.map(([nx, ny]) => ({ x: bx + nx * bw, y: by + ny * bh }));
+      const jaw = N([
+        [0.07, 0.75],
+        [0.15, 0.86],
+        [0.28, 0.93],
+        [0.5, 0.96],
+        [0.72, 0.93],
+        [0.85, 0.86],
+        [0.93, 0.75],
+      ]);
+      const browL = N([
+        [0.18, 0.33],
+        [0.27, 0.29],
+        [0.35, 0.28],
+      ]);
+      const browR = N([
+        [0.65, 0.28],
+        [0.73, 0.29],
+        [0.82, 0.33],
+      ]);
+      const eyeL = N([
+        [0.28, 0.42],
+        [0.33, 0.40],
+        [0.38, 0.42],
+        [0.33, 0.44],
+        [0.28, 0.42],
+      ]);
+      const eyeR = N([
+        [0.62, 0.42],
+        [0.67, 0.40],
+        [0.72, 0.42],
+        [0.67, 0.44],
+        [0.62, 0.42],
+      ]);
+      const nose = N([
+        [0.5, 0.38],
+        [0.5, 0.48],
+        [0.47, 0.56],
+        [0.53, 0.56],
+      ]);
+      const lips = N([
+        [0.40, 0.72],
+        [0.48, 0.70],
+        [0.60, 0.72],
+        [0.48, 0.74],
+        [0.40, 0.72],
+      ]);
+      const faceOutline = N([
+        [0.5, 0.12],
+        [0.65, 0.18],
+        [0.80, 0.30],
+        [0.90, 0.50],
+        [0.85, 0.70],
+        [0.70, 0.85],
+        [0.50, 0.92],
+        [0.30, 0.85],
+        [0.15, 0.70],
+        [0.10, 0.50],
+        [0.20, 0.30],
+        [0.35, 0.18],
+        [0.5, 0.12],
+      ]);
+      featuresRef.current = [faceOutline, jaw, browL, browR, eyeL, eyeR, nose, lips];
+      nodesRef.current = [
+        ...eyeL,
+        ...eyeR,
+        nose[1],
+        nose[2],
+        lips[1],
+        lips[2],
+        browL[1],
+        browR[1],
+      ].map((p) => ({ x: p.x, y: p.y }));
     };
     resize();
 
@@ -170,6 +253,56 @@ export default function LiveBackground() {
           }
         }
         ctx.globalCompositeOperation = "source-over";
+        const box = faceBoxRef.current;
+        const dashOffset = (t * 120) % 200;
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([10, 12]);
+        for (let poly of featuresRef.current) {
+          ctx.strokeStyle = "rgba(255,255,255,0.6)";
+          ctx.beginPath();
+          for (let i = 0; i < poly.length; i++) {
+            const p = poly[i];
+            const ox = px * 0.02;
+            const oy = py * 0.02;
+            if (i === 0) ctx.moveTo(p.x + ox, p.y + oy);
+            else ctx.lineTo(p.x + ox, p.y + oy);
+          }
+          ctx.lineDashOffset = -dashOffset;
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        for (let p of nodesRef.current) {
+          const ox = px * 0.02;
+          const oy = py * 0.02;
+          const r = 2 + 1.5 * (0.5 + 0.5 * Math.sin(t * 3 + p.x * 0.01));
+          const g = ctx.createRadialGradient(p.x + ox, p.y + oy, r * 0.3, p.x + ox, p.y + oy, r);
+          g.addColorStop(0, "rgba(255,255,255,0.9)");
+          g.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(p.x + ox, p.y + oy, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        const scanY =
+          box.y + box.h * (0.2 + 0.6 * (0.5 + 0.5 * Math.sin(t * 1.8))) + py * 0.02;
+        const sg = ctx.createLinearGradient(box.x, scanY, box.x + box.w, scanY);
+        sg.addColorStop(0, "rgba(255,255,255,0)");
+        sg.addColorStop(0.5, "rgba(255,255,255,0.35)");
+        sg.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = sg;
+        ctx.fillRect(box.x, scanY - 1.5, box.w, 3);
+        for (let p of nodesRef.current) {
+          if (Math.abs(p.y - scanY) < 4) {
+            const r = 3.5;
+            const g = ctx.createRadialGradient(p.x, p.y, r * 0.3, p.x, p.y, r);
+            g.addColorStop(0, "rgba(255,255,255,0.8)");
+            g.addColorStop(1, "rgba(255,255,255,0)");
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
 
         rafRef.current = requestAnimationFrame(loop);
       };

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useUI } from "@/context/UIContext";
 
 export default function TakeSelfie() {
   const [ready, setReady] = useState(false);
@@ -13,6 +14,7 @@ export default function TakeSelfie() {
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
   const [showNote, setShowNote] = useState(false);
   const router = useRouter();
+  const { openLogin } = useUI();
 
   const handleRipple = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.currentTarget as HTMLElement;
@@ -221,7 +223,25 @@ export default function TakeSelfie() {
             </span>
           </button>
           <button
-            onClick={(e) => { handleRipple(e); if (photoUrl) { try { sessionStorage.setItem("analysis:image", photoUrl); } catch {} } setShowNote(true); setTimeout(() => { stopCamera(); router.push("/skin-analysis"); }, 900); }}
+            onClick={(e) => {
+              handleRipple(e);
+              if (!photoUrl) return;
+              try {
+                const authed = sessionStorage.getItem("auth:loggedIn");
+                if (!authed) {
+                  setError("Please log in to continue with analysis.");
+                  try { sessionStorage.setItem("auth:next", "/skin-analysis"); } catch {}
+                  openLogin();
+                  return;
+                }
+                sessionStorage.setItem("analysis:image", photoUrl);
+              } catch {}
+              setShowNote(true);
+              setTimeout(() => {
+                stopCamera();
+                router.push("/skin-analysis");
+              }, 900);
+            }}
             disabled={!photoUrl}
             className={`group send-hover relative overflow-hidden h-12 w-full rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold transition-opacity shadow-md inline-flex items-center justify-center ${photoUrl ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"}`}
           >

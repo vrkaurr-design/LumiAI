@@ -184,7 +184,7 @@ export default function SelfiePrep() {
           Disclaimer: Analysis provides indicative insights based on captured images. Variations in lighting, camera sensors, and skincare products may affect results. For medical concerns, consult a qualified professional. Skin types and tones are diverse; recommendations aim to be inclusive and adaptive.
         </p>
         
-        <FooterPager previousHref="/access" previousLabel="Previous: Access" hideNext />
+        <FooterPager hidePrevious hideNext />
       </div>
     </div>
     {camOpen && (
