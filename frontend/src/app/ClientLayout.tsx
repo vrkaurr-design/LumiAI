@@ -22,7 +22,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             <a href="/feedback" className="hover:text-primary underline-slide">Reviews</a>
           </div>
           <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-            © Perfect Corp
+            © Lumi Ai
           </div>
         </div>
       </footer>

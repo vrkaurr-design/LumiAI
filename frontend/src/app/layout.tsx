@@ -3,7 +3,7 @@ import "./globals.css";
 import ClientLayout from "./ClientLayout";
 
 export const metadata: Metadata = {
-  title: "Perfect Corp AI Experience",
+  title: "Lumi Ai",
   description: "Immersive beauty tech experience powered by AI & AR",
 };
 

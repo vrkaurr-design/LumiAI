@@ -27,7 +27,7 @@ export default function Header() {
     <header className="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-md border-b border-white/20 dark:border-white/10 transition-colors">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-glow-soft float-up">
-          Perfect Corp
+          Lumi Ai
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
