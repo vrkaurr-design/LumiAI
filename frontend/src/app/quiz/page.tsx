@@ -67,61 +67,6 @@
                ))}
              </div>
            </div>
- 
-           <div>
-             <div className="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Primary Concerns</div>
-             <div className="grid grid-cols-2 gap-2">
-               {["Uneven tone", "Redness", "Texture", "Acne", "Dark circles", "Dryness"].map((c) => (
-                 <button
-                   key={c}
-                   type="button"
-                   onClick={() => toggleConcern(c)}
-                   className={`px-3 py-2 rounded-lg text-sm font-semibold border ${
-                     concerns.includes(c) ? "bg-primary text-white border-primary" : "bg-white/70 dark:bg_white/10 text-dark dark:text-white"
-                   }`}
-                 >
-                   {c}
-                 </button>
-               ))}
-             </div>
-           </div>
- 
-           <div>
-             <div className="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Preferred Daily Wear</div>
-             <div className="grid grid-cols-3 gap-2">
-               {["Natural", "Soft‑matte", "Dewy"].map((w) => (
-                 <button
-                   key={w}
-                   type="button"
-                   onClick={() => setWear(w)}
-                   className={`px-3 py-2 rounded-lg text-sm font-semibold border ${
-                     wear === w ? "bg-secondary text-white border-secondary" : "bg-white/70 dark:bg_white/10 text-dark dark:text-white"
-                   }`}
-                 >
-                   {w}
-                 </button>
-               ))}
-             </div>
-           </div>
- 
-           <div>
-             <div className="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Undertone (self‑assessment)</div>
-             <div className="grid grid-cols-3 gap-2">
-               {(["warm", "cool", "neutral"] as const).map((u) => (
-                 <button
-                   key={u}
-                   type="button"
-                   onClick={() => setUndertone(u)}
-                   className={`px-3 py-2 rounded-lg text-sm font-semibold border ${
-                     undertone === u ? "bg-secondary text-white border-secondary" : "bg-white/70 dark:bg_white/10 text-dark dark:text-white"
-                   }`}
-                 >
-                   {u[0].toUpperCase() + u.slice(1)}
-                 </button>
-               ))}
-             </div>
-           </div>
- 
           <Reveal as="div" delay={80}>
             <button type="submit" className="w-full mt-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white font-semibold hover:opacity-90 transition-opacity shadow-md">
               Continue to Try‑On
