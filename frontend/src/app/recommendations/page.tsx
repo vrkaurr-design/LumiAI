@@ -1,7 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import Reveal from "@/components/common/Reveal";
+import ProductCard from "@/components/common/ProductCard";
 
 type SkinType = "dry" | "oily" | "combination";
+type Tone = "warm" | "cool" | "neutral";
 
 type CareItem = { name: string; detail: string };
 type CareSet = {
@@ -150,12 +153,15 @@ const careProducts: Record<SkinType, CareSet> = {
 
 export default function Recommendations() {
   const [type, setType] = useState<SkinType>("combination");
+  const [tone, setTone] = useState<Tone | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     try {
       const t = sessionStorage.getItem("analysis:type") as SkinType | null;
       if (t) setType(t);
+      const tn = sessionStorage.getItem("analysis:tone") as Tone | null;
+      if (tn) setTone(tn);
     } catch {}
     const id = setTimeout(() => setLoaded(true), 20);
     return () => clearTimeout(id);
@@ -167,7 +173,7 @@ export default function Recommendations() {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
-      <div className="w-full max-w-3xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/45 backdrop-blur-xl shadow-2xl p-6 relative z-10">
+      <Reveal className="w-full max-w-3xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/45 backdrop-blur-xl shadow-2xl p-6 relative z-10">
         {!loaded && (
           <div className="product-ripple">
             <div className="bubble" style={{ width: 180, height: 180, left: "18%", top: "22%" }} />
@@ -175,12 +181,14 @@ export default function Recommendations() {
             <div className="bubble" style={{ width: 200, height: 200, left: "36%", top: "62%" }} />
           </div>
         )}
-        <h1 className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">Skin Care Recommendations</h1>
-        <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">
+        <Reveal as="h1" className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright" variant="fade">
+          Skin Care Recommendations
+        </Reveal>
+        <Reveal className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6" delay={60}>
           Tailored to your skin type: <span className="font-semibold capitalize">{type}</span>
-        </p>
+        </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 pop-in">
+          <div className="p-4 rounded-xl border card-pop tilt-hover bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 pop-in">
             <div className="text-xl font-bold mb-1">Toner</div>
             <div className="text-sm text-gray-700 dark:text-gray-300">{s.toner}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -197,7 +205,7 @@ export default function Recommendations() {
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 pop-in" style={{ animationDelay: "60ms" }}>
+          <div className="p-4 rounded-xl border card-pop tilt-hover bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 pop-in" style={{ animationDelay: "60ms" }}>
             <div className="text-xl font-bold mb-1">Cleanser</div>
             <div className="text-sm text-gray-700 dark:text-gray-300">{s.cleanser}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -214,7 +222,7 @@ export default function Recommendations() {
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 pop-in" style={{ animationDelay: "120ms" }}>
+          <div className="p-4 rounded-xl border card-pop tilt-hover bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 pop-in" style={{ animationDelay: "120ms" }}>
             <div className="text-xl font-bold mb-1">Facewash</div>
             <div className="text-sm text-gray-700 dark:text-gray-300">{s.facewash}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -305,7 +313,105 @@ export default function Recommendations() {
             Back to Analysis
           </a>
         </div>
-      </div>
+        <Reveal as="h2" className="text-xl font-extrabold text-center mt-8 mb-3 text-dark dark:text-white">
+          Our Products For Your Skin Type
+        </Reveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {p.toner.slice(0, 1).map((it, i) => (
+            <ProductCard
+              key={`rec-ton-${i}`}
+              product={{
+                id: type === "dry" ? "sk-ton-d1" : type === "oily" ? "sk-ton-o1" : "sk-ton-cm1",
+                name: it.name,
+                category: "skincare",
+                type: "toner",
+                skinType: type,
+                detail: it.detail,
+                price: type === "oily" ? 699 : 749,
+                currency: "₹",
+                badge: i === 0 ? "bestseller" : undefined,
+              }}
+              delay={i * 40}
+            />
+          ))}
+          {p.cleanser.slice(0, 1).map((it, i) => (
+            <ProductCard
+              key={`rec-cln-${i}`}
+              product={{
+                id: type === "dry" ? "sk-cln-d1" : type === "oily" ? "sk-cln-o1" : "sk-cln-cm1",
+                name: it.name,
+                category: "skincare",
+                type: "cleanser",
+                skinType: type,
+                detail: it.detail,
+                price: 599,
+                currency: "₹",
+              }}
+              delay={80 + i * 40}
+            />
+          ))}
+          {p.sunscreen.slice(0, 1).map((it, i) => (
+            <ProductCard
+              key={`rec-spf-${i}`}
+              product={{
+                id: type === "dry" ? "sk-spf-d1" : type === "oily" ? "sk-spf-o1" : "sk-spf-cm1",
+                name: it.name,
+                category: "skincare",
+                type: "sunscreen",
+                skinType: type,
+                detail: it.detail,
+                price: 899,
+                currency: "₹",
+              }}
+              delay={160 + i * 40}
+            />
+          ))}
+        </div>
+        {tone && (
+          <>
+            <Reveal as="h2" className="text-xl font-extrabold text-center mt-8 mb-3 text-dark dark:text-white">
+              Shade‑Matched Makeup
+            </Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <ProductCard
+                key={`rec-mk-lip-${tone}`}
+                product={{
+                  id: tone === "warm" ? "mk-lip-w1" : tone === "cool" ? "mk-lip-c1" : "mk-lip-n1",
+                  name: "Aura Lipstick",
+                  category: "makeup",
+                  type: "lipstick",
+                  shade: tone,
+                  detail: "Long‑wear satin finish",
+                  price: 799,
+                  currency: "₹",
+                  badge: "bestseller",
+                }}
+                delay={40}
+              />
+              <ProductCard
+                key={`rec-mk-fnd-${tone}`}
+                product={{
+                  id: tone === "warm" ? "mk-fnd-w1" : tone === "cool" ? "mk-fnd-c1" : "mk-fnd-n1",
+                  name: "Silk Foundation",
+                  category: "makeup",
+                  type: "foundation",
+                  shade: tone,
+                  detail: "Medium coverage, skin‑like",
+                  price: 1299,
+                  currency: "₹",
+                  badge: "new",
+                }}
+                delay={80}
+              />
+            </div>
+          </>
+        )}
+        <div className="mt-6 flex justify-center">
+          <a href="/shop" className="px-5 py-2 rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity">
+            View All Products
+          </a>
+        </div>
+      </Reveal>
     </div>
   );
 }

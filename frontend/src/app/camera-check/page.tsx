@@ -64,14 +64,14 @@ export default function CameraCheck() {
           <button
             onClick={start}
             disabled={requesting}
-            className="px-4 py-2 rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="px-4 py-2 rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold shine-sweep"
           >
             {requesting ? "Requesting…" : ready ? "Restart Preview" : "Allow Camera Access"}
           </button>
           <Link
             href={ready ? "/skin-analysis" : "#"}
-            className={`px-4 py-2 rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold transition-opacity shadow-md ${
-              ready ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"
+            className={`px-4 py-2 rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold shadow-md shine-sweep ${
+              ready ? "" : "opacity-60 cursor-not-allowed"
             }`}
           >
             Begin Analysis

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import FooterPager from "@/components/common/FooterPager";
 import { useRouter } from "next/navigation";
+import Reveal from "@/components/common/Reveal";
 
 export default function SelfiePrep() {
   const [confirm, setConfirm] = useState(false);
@@ -129,11 +130,15 @@ export default function SelfiePrep() {
     <>
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
-      <div className="w-full max-w-2xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/75 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10">
-        <h1 className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">Selfie Preparation</h1>
-        <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">For accurate skin analysis, follow these quick steps.</p>
+      <Reveal className="w-full max-w-2xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/75 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10">
+        <Reveal as="h1" className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright" variant="fade">
+          Selfie Preparation
+        </Reveal>
+        <Reveal className="text-center text_sm text-gray-700 dark:text-gray-300 mb-6" delay={60}>
+          For accurate skin analysis, follow these quick steps.
+        </Reveal>
 
-        <div className="p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/30 dark:to-pink-900/30 border border-purple-100 dark:border-fuchsia-800 mb-6">
+        <Reveal className="p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/30 dark:to-pink-900/30 border border-purple-100 dark:border-fuchsia-800 mb-6" delay={80}>
           <ol className="list-decimal list-inside space-y-2 text-dark dark:text-white">
             <li>
               Lighting
@@ -164,28 +169,28 @@ export default function SelfiePrep() {
               </ul>
             </li>
           </ol>
-        </div>
+        </Reveal>
 
-        <div className="flex items-center gap-2 mb-4">
+        <Reveal className="flex items-center gap-2 mb-4" delay={100}>
           <input id="confirm" type="checkbox" checked={confirm} onChange={(e) => setConfirm(e.target.checked)} className="rounded" />
           <label htmlFor="confirm" className="text-sm text-gray-800 dark:text-gray-200">I am ready to take a selfie with these conditions</label>
-        </div>
+        </Reveal>
 
-        <div className="flex items-center justify-center gap-3">
+        <Reveal className="flex items-center justify-center gap-3" delay={120}>
           <button
             onClick={() => { if (confirm) { router.push("/take-selfie"); } }}
             className={`px-4 py-2 rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold transition-opacity shadow-md ${confirm ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"}`}
           >
             Take the Selfie
           </button>
-        </div>
+        </Reveal>
 
-        <p className="mt-6 text-xs text-center text-gray-600 dark:text-gray-400">
-          Disclaimer: Analysis provides indicative insights based on captured images. Variations in lighting, camera sensors, and skincare products may affect results. For medical concerns, consult a qualified professional. Skin types and tones are diverse; recommendations aim to be inclusive and adaptive.
-        </p>
+        <Reveal as="p" className="mt-6 text-xs text-center text-gray-600 dark:text-gray-400" delay={140}>
+          Disclaimer: Analysis provides indicative insights based on captured images. Variations in lighting, camera sensors, and skincare products may affect results. For medical concerns, consult a qualified dermatologist. Skin types and tones are diverse; recommendations aim to be inclusive and adaptive.
+        </Reveal>
         
         <FooterPager hidePrevious hideNext />
-      </div>
+      </Reveal>
     </div>
     {camOpen && (
         <div className="mt-6">
@@ -302,7 +307,7 @@ export default function SelfiePrep() {
                 </p>
                 <div className="mt-3 flex items-center justify-between">
                   <Link
-                    href="/access"
+                    href="/take-selfie"
                     className="relative overflow-hidden px-3 py-1.5 rounded-md bg-dark dark:bg-white text-white dark:text-dark text-xs font-semibold hover:opacity-90 transition-opacity"
                   >
                     Previous

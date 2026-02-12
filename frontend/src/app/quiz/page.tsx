@@ -1,13 +1,12 @@
  "use client";
  import { useRouter } from "next/navigation";
  import { useState } from "react";
- import { useUI } from "@/context/UIContext";
+ import Reveal from "@/components/common/Reveal";
  
  type SkinType = "dry" | "oily" | "combination";
  
  export default function Quiz() {
    const router = useRouter();
-  const { openLogin } = useUI();
    const [type, setType] = useState<SkinType | null>(null);
    const [concerns, setConcerns] = useState<string[]>([]);
    const [wear, setWear] = useState<string | null>(null);
@@ -29,7 +28,7 @@
       if (!authed) {
         sessionStorage.setItem("auth:next", "/try-on");
         setNeedAuth(true);
-        openLogin();
+        router.push("/login");
         return;
       }
     } catch {}
@@ -37,13 +36,15 @@
    };
  
    return (
-     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
        <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
-       <div className="w-full max-w-2xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/45 backdrop-blur-xl shadow-2xl p-6 relative z-10">
-         <h1 className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">Quick Style Quiz</h1>
-         <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">
-           Answer a few professional questions to tailor your virtual try-on experience.
-         </p>
+      <Reveal className="w-full max-w-2xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/45 backdrop-blur-xl shadow-2xl p-6 relative z-10">
+        <Reveal as="h1" className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright" variant="fade">
+          Quick Style Quiz
+        </Reveal>
+        <Reveal className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6" delay={60}>
+          Answer a few quick questions to tailor your virtual try-on experience.
+        </Reveal>
          <form className="space-y-5" onSubmit={submit}>
            {needAuth && (
              <div className="rounded-md bg-white/70 dark:bg-white/10 border border-white/30 dark:border-white/10 p-3 text-sm text-gray-700 dark:text-gray-300">
@@ -122,11 +123,13 @@
              </div>
            </div>
  
-           <button type="submit" className="w-full mt-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white font-semibold hover:opacity-90 transition-opacity shadow-md">
-             Continue to Try‑On
-           </button>
+          <Reveal as="div" delay={80}>
+            <button type="submit" className="w-full mt-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white font-semibold hover:opacity-90 transition-opacity shadow-md">
+              Continue to Try‑On
+            </button>
+          </Reveal>
          </form>
-       </div>
+      </Reveal>
      </div>
    );
  }

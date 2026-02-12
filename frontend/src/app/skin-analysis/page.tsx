@@ -1,6 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import Reveal from "@/components/common/Reveal";
+import ProductCard from "@/components/common/ProductCard";
 
 type ToneResult = {
   tone: "warm" | "cool" | "neutral";
@@ -41,6 +43,48 @@ export default function SkinAnalysis() {
   const [result, setResult] = useState<ToneResult | null>(null);
   const [skinType, setSkinType] = useState<SkinType | null>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const matched = useMemo(() => {
+    const tone = result?.tone ?? null;
+    const type = skinType ?? null;
+    const items: Array<{ id: string; name: string; category: "makeup" | "skincare"; type: string; detail: string; price: number; currency?: "₹"; shade?: "warm" | "cool" | "neutral"; skinType?: SkinType; badge?: "new" | "bestseller"; }> = [];
+    if (tone) {
+      items.push({
+        id: tone === "warm" ? "mk-lip-w1" : tone === "cool" ? "mk-lip-c1" : "mk-lip-n1",
+        name: "Aura Lipstick",
+        category: "makeup",
+        type: "lipstick",
+        shade: tone,
+        detail: "Long‑wear satin finish",
+        price: 799,
+        currency: "₹",
+        badge: "bestseller",
+      });
+      items.push({
+        id: tone === "warm" ? "mk-fnd-w1" : tone === "cool" ? "mk-fnd-c1" : "mk-fnd-n1",
+        name: "Silk Foundation",
+        category: "makeup",
+        type: "foundation",
+        shade: tone,
+        detail: "Medium coverage, skin‑like",
+        price: 1299,
+        currency: "₹",
+        badge: "new",
+      });
+    }
+    if (type) {
+      items.push({
+        id: type === "dry" ? "sk-ton-d1" : type === "oily" ? "sk-ton-o1" : "sk-ton-cm1",
+        name: type === "oily" ? "Balance Toner" : type === "dry" ? "Hydra Toner" : "pH Toner",
+        category: "skincare",
+        type: "toner",
+        skinType: type,
+        detail: type === "oily" ? "2% BHA clarity" : type === "dry" ? "2% HA + B5 hydration" : "Gentle, daily balance",
+        price: 699,
+        currency: "₹",
+      });
+    }
+    return items;
+  }, [result, skinType]);
 
   useEffect(() => {
     try {
@@ -89,13 +133,15 @@ export default function SkinAnalysis() {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
-      <div className="w-full max-w-2xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/75 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10">
-        <h1 className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">AI Skin Analysis</h1>
-        <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">
+      <Reveal className="w-full max-w-4xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/75 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10" variant="fade">
+        <Reveal as="h1" className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">
+          AI Skin Analysis
+        </Reveal>
+        <Reveal className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6" delay={40}>
           Based on your selfie, here is a quick undertone summary and next steps.
-        </p>
+        </Reveal>
 
-        <div className="rounded-xl p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/30 dark:to-pink-900/30 border border-purple-100 dark:border-fuchsia-800">
+        <Reveal className="rounded-xl p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/30 dark:to-pink-900/30 border border-purple-100 dark:border-fuchsia-800" delay={60}>
           {result ? (
             <div className="flex items-start gap-4">
               {imgSrc && (
@@ -138,7 +184,7 @@ export default function SkinAnalysis() {
               Processing your selfie… If this takes long, try resubmitting from Take Selfie.
             </div>
           )}
-        </div>
+        </Reveal>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
@@ -166,7 +212,25 @@ export default function SkinAnalysis() {
             <div className="text-sm text-gray-700 dark:text-gray-300">Leave feedback and connect with our team</div>
           </Link>
         </div>
-      </div>
+        <Reveal as="h2" className="text-xl font-extrabold text-center mt-8 mb-3 text-dark dark:text-white">
+          Your Matched Products
+        </Reveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {matched.map((p, i) => (
+            <ProductCard key={p.id} product={p} delay={i * 40} />
+          ))}
+          {matched.length === 0 && (
+            <Reveal className="col-span-full text-center text-sm text-gray-700 dark:text-gray-300" delay={40}>
+              Run analysis to see tailored products.
+            </Reveal>
+          )}
+        </div>
+        <div className="mt-6 flex justify-center">
+          <a href="/shop" className="px-5 py-2 rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity">
+            View All Products
+          </a>
+        </div>
+      </Reveal>
     </div>
   );
 }

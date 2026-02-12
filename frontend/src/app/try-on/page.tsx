@@ -220,124 +220,124 @@ export default function TryOn() {
           <div className="bubble" style={{ width: 260, height: 260, left: "8%", top: "70%" }} />
         </div>
       )}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
-      <div className="w-full max-w-3xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/45 backdrop-blur-xl shadow-2xl p-6 relative z-10">
-        <h1 className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">Makeup Recommendations</h1>
-        <p className="text-center text-sm text-gray-700 dark:text-gray-300 mb-6">
-          Tailored to your undertone: <span className="font-semibold capitalize">{tone}</span>
+      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-indigo-900/25 via-slate-800/20 to-indigo-700/15" />
+      <div className="w-full mx-auto rounded-2xl border border-white/20 bg-black/40 backdrop-blur-xl shadow-2xl p-6 relative z-10">
+        <h1 className="text-3xl font-extrabold text-center mb-2 text-white">Virtual Try‑On Studio</h1>
+        <p className="text-center text-sm text-gray-300 mb-6">
+          Undertone detected: <span className="font-semibold capitalize text-white">{tone}</span>
         </p>
         <div className="mb-6">
-          <div className="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200 text-center">Shade Match Palette</div>
+          <div className="text-sm font-semibold mb-2 text-gray-200 text-center">Shade Match Palette</div>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {palette[tone].map((sw, i) => (
               <div key={`sw-${i}`} className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-md border border-white/40 dark:border-white/10 shadow-sm" style={{ backgroundColor: sw.color }} />
-                <div className="mt-1 text-[10px] text-gray-700 dark:text-gray-300">{sw.label}</div>
+                <div className="pulse-hover w-12 h-12 rounded-md border border-white/10 shadow-sm" style={{ backgroundColor: sw.color }} />
+                <div className="mt-1 text-[10px] text-gray-300">{sw.label}</div>
               </div>
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in">
-            <div className="text-xl font-bold mb-1">Foundations</div>
-            <div className="text-sm text-gray-700 dark:text-gray-300">{s.foundation}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="p-4 rounded-xl border bg-white/10 border-white/20">
+            <div className="text-xl font-bold mb-1 text-white">Foundations</div>
+            <div className="text-sm text-gray-300">{s.foundation}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.foundations.map((it, i) => (
-                <div key={`fd-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
+                <div key={`fd-${i}`} className="rounded-lg border bg-white/5 border-white/20 text-white px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <img src={svgThumb("foundation", tone)} alt="Foundation" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <img src={svgThumb("foundation", tone)} alt="Foundation" className="w-10 h-10 rounded-md border border-white/10" />
                     <div>
                       <div className="text-sm font-semibold">{it.name}</div>
-                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                      <div className="text-xs text-gray-300">{it.shade}</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in" style={{ animationDelay: "60ms" }}>
-            <div className="text-xl font-bold mb-1">Concealer</div>
-            <div className="text-sm text-gray-700 dark:text-gray-300">{s.concealer}</div>
+          <div className="p-4 rounded-xl border bg-white/10 border-white/20" style={{ animationDelay: "60ms" }}>
+            <div className="text-xl font-bold mb-1 text-white">Concealer</div>
+            <div className="text-sm text-gray-300">{s.concealer}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.concealer.map((it, i) => (
-                <div key={`cn-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
+                <div key={`cn-${i}`} className="rounded-lg border bg-white/5 border-white/20 text-white px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <img src={svgThumb("concealer", tone)} alt="Concealer" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <img src={svgThumb("concealer", tone)} alt="Concealer" className="w-10 h-10 rounded-md border border-white/10" />
                     <div>
                       <div className="text-sm font-semibold">{it.name}</div>
-                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                      <div className="text-xs text-gray-300">{it.shade}</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in" style={{ animationDelay: "120ms" }}>
-            <div className="text-xl font-bold mb-1">Colour Corrector</div>
-            <div className="text-sm text-gray-700 dark:text-gray-300">{s.corrector}</div>
+          <div className="p-4 rounded-xl border bg-white/10 border-white/20" style={{ animationDelay: "120ms" }}>
+            <div className="text-xl font-bold mb-1 text-white">Colour Corrector</div>
+            <div className="text-sm text-gray-300">{s.corrector}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.corrector.map((it, i) => (
-                <div key={`cc-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
+                <div key={`cc-${i}`} className="rounded-lg border bg-white/5 border-white/20 text-white px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <img src={svgThumb("corrector", tone)} alt="Corrector" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <img src={svgThumb("corrector", tone)} alt="Corrector" className="w-10 h-10 rounded-md border border-white/10" />
                     <div>
                       <div className="text-sm font-semibold">{it.name}</div>
-                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                      <div className="text-xs text-gray-300">{it.shade}</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in" style={{ animationDelay: "180ms" }}>
-            <div className="text-xl font-bold mb-1">Lipsticks</div>
-            <div className="text-sm text-gray-700 dark:text-gray-300">{s.lipstick}</div>
+          <div className="p-4 rounded-xl border bg-white/10 border-white/20" style={{ animationDelay: "180ms" }}>
+            <div className="text-xl font-bold mb-1 text-white">Lipsticks</div>
+            <div className="text-sm text-gray-300">{s.lipstick}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.lipstick.map((it, i) => (
-                <div key={`lp-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
+                <div key={`lp-${i}`} className="rounded-lg border bg-white/5 border-white/20 text-white px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <img src={svgThumb("lipstick", tone)} alt="Lipstick" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <img src={svgThumb("lipstick", tone)} alt="Lipstick" className="w-10 h-10 rounded-md border border-white/10" />
                     <div>
                       <div className="text-sm font-semibold">{it.name}</div>
-                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                      <div className="text-xs text-gray-300">{it.shade}</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in" style={{ animationDelay: "240ms" }}>
-            <div className="text-xl font-bold mb-1">Makeup Fixer</div>
-            <div className="text-sm text-gray-700 dark:text-gray-300">{s.fixer}</div>
+          <div className="p-4 rounded-xl border bg-white/10 border-white/20" style={{ animationDelay: "240ms" }}>
+            <div className="text-xl font-bold mb-1 text-white">Makeup Fixer</div>
+            <div className="text-sm text-gray-300">{s.fixer}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.fixer.map((it, i) => (
-                <div key={`fx-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
+                <div key={`fx-${i}`} className="rounded-lg border bg-white/5 border-white/20 text-white px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <img src={svgThumb("fixer", tone)} alt="Fixer" className="w-10 h-10 rounded-md border border-white/30 dark:border-white/10" />
+                    <img src={svgThumb("fixer", tone)} alt="Fixer" className="w-10 h-10 rounded-md border border-white/10" />
                     <div>
                       <div className="text-sm font-semibold">{it.name}</div>
-                      <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                      <div className="text-xs text-gray-300">{it.shade}</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="p-4 rounded-xl border card-pop bg-gradient-to-br from-pink-50 to-purple-50 dark:from-fuchsia-900/40 dark:to-purple-900/40 border-pink-100 dark:border-fuchsia-800 pop-in" style={{ animationDelay: "300ms" }}>
-            <div className="text-xl font-bold mb-1">Contour</div>
-            <div className="text-sm text-gray-700 dark:text-gray-300">{s.contour}</div>
+          <div className="p-4 rounded-xl border bg-white/10 border-white/20" style={{ animationDelay: "300ms" }}>
+            <div className="text-xl font-bold mb-1 text-white">Contour</div>
+            <div className="text-sm text-gray-300">{s.contour}</div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {p.contour.map((it, i) => (
-                <div key={`ct-${i}`} className="rounded-lg border bg-white/70 dark:bg-white/10 dark:text-white px-3 py-2">
+                <div key={`ct-${i}`} className="rounded-lg border bg-white/5 border-white/20 text-white px-3 py-2">
                   <div className="text-sm font-semibold">{it.name}</div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300">{it.shade}</div>
+                  <div className="text-xs text-gray-300">{it.shade}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
         <div className="mt-6 flex justify-center">
-          <a href="/skin-analysis" className="px-5 py-2 rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold hover:opacity-90 transition-opacity">
+          <a href="/skin-analysis" className="px-5 py-2 rounded-lg bg-white/10 text-white text-sm font-semibold hover:bg-white/20 transition-colors">
             Back to Analysis
           </a>
         </div>

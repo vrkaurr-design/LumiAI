@@ -25,7 +25,8 @@ export default function FooterPager({
         ? (
           <Link
             href={previousHref}
-            className="px-5 py-2.5 rounded-full bg-white/70 dark:bg-white/10 text-dark dark:text-white backdrop-blur hover:bg-white/85 dark:hover:bg-white/20 transition-colors text-sm font-semibold shadow-sm"
+            className="px-5 py-2.5 rounded-full bg-white/70 dark:bg-white/10 text-dark dark:text-white backdrop-blur hover:bg-white/85 dark:hover:bg-white/20 transition-colors text-sm font-semibold shadow-sm fade-up"
+            style={{ animationDelay: "40ms" }}
           >
             {previousLabel}
           </Link>
@@ -38,7 +39,8 @@ export default function FooterPager({
       {hideNext ? null : nextHref ? (
         <Link
           href={nextHref}
-          className="px-5 py-2.5 rounded-full bg-primary text-white hover:bg-opacity-90 transition-colors text-sm font-semibold shadow-md"
+          className="px-5 py-2.5 rounded-full bg-primary text-white hover:bg-opacity-90 transition-colors text-sm font-semibold shadow-md fade-up"
+          style={{ animationDelay: "80ms" }}
         >
           {nextLabel}
         </Link>

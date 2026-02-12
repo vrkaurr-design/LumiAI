@@ -198,13 +198,13 @@
                </div>
              </div>
  
-             <button type="submit" className="w-full mt-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white font-semibold hover:opacity-90 transition-opacity shadow-md">
+            <button type="submit" className="w-full mt-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white font-semibold shadow-md shine-sweep">
                Get Clothing Style Recommendations
              </button>
            </form>
          ) : (
-           <div className="space-y-5">
-             <div className="rounded-xl p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/30 dark:to-pink-900/30 border border-purple-100 dark:border-fuchsia-800">
+          <div className="space-y-5">
+            <div className="rounded-xl p-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/30 dark:to-pink-900/30 border border-purple-100 dark:border-fuchsia-800 tilt-hover">
                <div className="flex items-start gap-3">
                  <div className="w-10 h-10 rounded-lg bg-accent/40 flex items-center justify-center text-2xl">✨</div>
                  <div className="flex-1">
@@ -215,7 +215,7 @@
                  </div>
                </div>
              </div>
-             <div className="rounded-xl p-4 bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 border border-green-100 dark:border-emerald-800">
+            <div className="rounded-xl p-4 bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 border border-green-100 dark:border-emerald-800 tilt-hover">
                <div className="flex items-start gap-3">
                  <div className="w-10 h-10 rounded-lg bg-secondary/40 flex items-center justify-center text-2xl">🧥</div>
                  <div className="flex-1">

@@ -1,121 +1,118 @@
- "use client";
-import Image from "next/image";
+"use client";
 import Link from "next/link";
+import Reveal from "@/components/common/Reveal";
 import FooterPager from "@/components/common/FooterPager";
- import { useUI } from "@/context/UIContext";
- import { useRouter } from "next/navigation";
- import { useState } from "react";
 
 export default function Home() {
-   const { openLogin } = useUI();
-   const router = useRouter();
-   const [modal, setModal] = useState<null | "makeup" | "skin">(null);
-   const proceed = () => {
-     const target = modal === "makeup" ? "/quiz" : "/take-selfie";
-     try {
-       const authed = sessionStorage.getItem("auth:loggedIn");
-       if (!authed) {
-         sessionStorage.setItem("auth:next", target);
-         openLogin();
-         return;
-       }
-     } catch {}
-     router.push(target);
-   };
   return (
-    <div className="flex flex-col items-center min-h-[calc(100vh-4rem)] p-4 text-center">
-      <div className="max-w-5xl mx-auto space-y-8 mt-16">
-        <h1 className={`font-semibold whitespace-nowrap text-4xl sm:text-5xl md:text-7xl tracking-tight leading-tight bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent text-shadow-under`}>
-          Future of Beauty Tech
-        </h1>
-        <div className="mx-auto mt-3 h-1.5 w-28 rounded-full bg-gradient-to-r from-secondary via-primary to-accent shadow-md" />
-        <p className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 max-w-2xl mx-auto text-glow-soft">
-          Experience hyper-realistic virtual try-ons and AI-powered skin analysis directly in your browser.
-        </p>
-        
-        <div className="flex flex-wrap gap-4 justify-center mt-8">
-          <Link 
-            href="/quiz" 
-            className="px-8 py-3 bg-primary text-white rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg shadow-primary/30"
+    <div className="flex flex-col min-h-[calc(100vh-4rem)]">
+      <section className="relative px-4 pt-20 pb-16 text-center">
+        <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
+        <Reveal className="max-w-5xl mx-auto space-y-6" variant="fade">
+          <Reveal
+            as="h1"
+            className="font-semibold whitespace-nowrap text-4xl sm:text-5xl md:text-7xl tracking-tight leading-tight bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent text-shadow-under"
           >
-            Virtual Try-On
-          </Link>
-          <Link 
-            href="/take-selfie" 
-            className="px-8 py-3 bg-secondary text-white rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg shadow-secondary/30"
+            Future of Beauty Tech
+          </Reveal>
+          <Reveal className="mx-auto h-1.5 w-28 rounded-full bg-gradient-to-r from-secondary via-primary to-accent shadow-md" delay={40} />
+          <Reveal
+            as="p"
+            className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 max-w-2xl mx-auto text-glow-soft"
+            delay={80}
           >
-            AI Skin Analysis
-          </Link>
-        </div>
+            Hyper‑real virtual try‑ons and AI skin analysis in your browser.
+          </Reveal>
+          <Reveal className="flex flex-wrap gap-4 justify-center" delay={120}>
+            <Link className="px-8 py-3 bg-primary text-white rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg shadow-primary/30 shine-sweep" href="/quiz">
+              Virtual Try‑On
+            </Link>
+            <Link className="px-8 py-3 bg-secondary text-white rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg shadow-secondary/30 shine-sweep" href="/take-selfie">
+              AI Skin Analysis
+            </Link>
+          </Reveal>
+        </Reveal>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 text-left">
-          <button type="button" onClick={() => setModal("makeup")} className="group block text-left w-full p-6 rounded-2xl border card-pop bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/40 dark:to-pink-900/40 border-purple-100 dark:border-fuchsia-800 hover:from-purple-200/60 hover:to-pink-200/60 hover:border-pink-300 shadow-xl hover:shadow-2xl transition-all" title="Makeup: AI analysis with tailored try-ons for lipsticks, eyeshadows, and shade matches.">
+      <section className="px-4 py-12">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Reveal className="group p-6 rounded-2xl border card-pop tilt-hover bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/40 dark:to-pink-900/40 border-purple-100 dark:border-fuchsia-800 shadow-xl transition-all">
             <div className="w-12 h-12 bg-primary/30 group-hover:bg-primary/50 rounded-xl flex items-center justify-center mb-4 text-2xl">💄</div>
-            <h3 className="text-xl font-bold mb-2 text-dark dark:text-white">Makeup</h3>
-            <p className="text-gray-700 dark:text-gray-300">AI analyzes your face and lets you preview lipsticks, eyeshadows, and shade matches tailored to your undertone and features.</p>
-          </button>
-          <button type="button" onClick={() => setModal("skin")} className="group block text-left w-full p-6 rounded-2xl border card-pop bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/40 dark:to-pink-900/40 border-purple-100 dark:border-fuchsia-800 hover:from-purple-200/60 hover:to-pink-200/60 hover:border-pink-300 shadow-xl hover:shadow-2xl transition-all">
+            <div className="text-xl font-bold mb-2 text-dark dark:text-white">Virtual Makeup</div>
+            <p className="text-gray-700 dark:text-gray-300">Try lipsticks, eyeshadows, and shade matches tailored to your undertone.</p>
+          </Reveal>
+          <Reveal className="group p-6 rounded-2xl border card-pop tilt-hover bg-gradient-to-br from-green-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40 border-green-100 dark:border-emerald-800 shadow-xl transition-all" delay={40}>
             <div className="w-12 h-12 bg-secondary/30 group-hover:bg-secondary/50 rounded-xl flex items-center justify-center mb-4 text-2xl">🔍</div>
-            <h3 className="text-xl font-bold mb-2 text-dark dark:text-white">Skin Tech</h3>
-            <p className="text-gray-700 dark:text-gray-300">Clinical-grade skin analysis detecting wrinkles, spots, and texture in seconds.</p>
-          </button>
-          <Link href="/style-advisor" className="group block p-6 rounded-2xl border card-pop bg-gradient-to-br from-purple-50 to-pink-50 dark:from-fuchsia-900/40 dark:to-pink-900/40 border-purple-100 dark:border-fuchsia-800 hover:from-purple-200/60 hover:to-pink-200/60 hover:border-pink-300 shadow-xl hover:shadow-2xl transition-all">
+            <div className="text-xl font-bold mb-2 text-dark dark:text-white">Skin Analysis</div>
+            <p className="text-gray-700 dark:text-gray-300">Clinical‑grade analysis detecting wrinkles, spots, and texture in seconds.</p>
+          </Reveal>
+          <Reveal className="group p-6 rounded-2xl border card-pop tilt-hover bg-gradient-to-br from-indigo-50 to-slate-50 dark:from-indigo-900/40 dark:to-slate-900/40 border-indigo-100 dark:border-indigo-800 shadow-xl transition-all" delay={80}>
             <div className="w-12 h-12 bg-accent/30 group-hover:bg-accent/50 rounded-xl flex items-center justify-center mb-4 text-2xl">✨</div>
-            <h3 className="text-xl font-bold mb-2 text-dark dark:text-white">Gen AI</h3>
-            <p className="text-gray-700 dark:text-gray-300">Generate complete beauty looks and fashion styles with generative AI.</p>
-          </Link>
+            <div className="text-xl font-bold mb-2 text-dark dark:text-white">Generative Advisor</div>
+            <p className="text-gray-700 dark:text-gray-300">Create complete looks and styles powered by generative intelligence.</p>
+          </Reveal>
         </div>
-        {modal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setModal(null)} />
-            <div className="relative w-full max-w-md mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/90 dark:bg-black/60 backdrop-blur-xl shadow-2xl p-6 text-left">
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-extrabold text-dark dark:text-white">{modal === "makeup" ? "Virtual Makeup Try‑On" : "AI Skin Tech"}</h2>
-                <button onClick={() => setModal(null)} className="rounded-md px-2 py-1 bg-white/70 dark:bg-white/10 text-dark dark:text-white hover:bg-white/90 dark:hover:bg-white/20">
-                  ✕
-                </button>
-              </div>
-              <p className="text-sm mb-4 text-gray-700 dark:text-gray-300">
-                {modal === "makeup"
-                  ? "Preview lipsticks, eyeshadows, and shades tailored to your undertone. Sign in to proceed to quick selects and get results."
-                  : "Analyze undertone, skin type, and key concerns in seconds. Sign in to proceed with selfie steps and see your results."}
-              </p>
-              <div className="flex gap-3">
-                <button
-                  onClick={proceed}
-                  className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity"
-                >
-                  Continue
-                </button>
-                <button
-                  onClick={() => setModal(null)}
-                  className="px-4 py-2.5 rounded-lg bg-white/80 dark:bg-white/10 text-dark dark:text-white text-sm font-semibold hover:bg-white/90 dark:hover:bg-white/20"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+      </section>
+
+      <section className="px-4 py-12 bg-white/40 dark:bg-white/5 backdrop-blur">
+        <div className="max-w-6xl mx-auto">
+          <Reveal as="h2" className="text-2xl font-extrabold text-center text-dark dark:text-white">How It Works</Reveal>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+            <Reveal className="p-5 rounded-xl border bg-white/70 dark:bg-white/10">
+              <div className="text-lg font-bold mb-1">1. Take Selfie</div>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Quick, guided capture for best results.</p>
+            </Reveal>
+            <Reveal className="p-5 rounded-xl border bg-white/70 dark:bg-white/10" delay={40}>
+              <div className="text-lg font-bold mb-1">2. AI Analysis</div>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Undertone, type, and key concerns.</p>
+            </Reveal>
+            <Reveal className="p-5 rounded-xl border bg-white/70 dark:bg-white/10" delay={80}>
+              <div className="text-lg font-bold mb-1">3. Recommendations</div>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Makeup shades and care routines.</p>
+            </Reveal>
+            <Reveal className="p-5 rounded-xl border bg-white/70 dark:bg-white/10" delay={120}>
+              <div className="text-lg font-bold mb-1">4. Shop</div>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Browse company products tailored to you.</p>
+            </Reveal>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
 
-      <div className="max-w-4xl mx-auto mt-8 px-6">
-        <p className="text-base md:text-lg text-gray-800 dark:text-gray-200 text-center">
-          Perfect Corp is a beauty‑tech innovator building AI and AR experiences that help customers discover products with confidence.
-          This website showcases hyper‑real virtual try‑ons and clinical‑grade skin analysis, delivering tailored recommendations with
-          privacy‑friendly on‑device processing and responsive performance.
-        </p>
-        <p className="mt-3 text-base md:text-lg text-gray-800 dark:text-gray-200 text-center">
-          Our platform integrates shade matching, routine guidance, and AR previews, optimizing decisions with real‑time insights, inclusive recommendations, and efficient performance across modern devices and browsers.
-        </p>
-      </div>
+      <section className="px-4 py-12">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Reveal className="rounded-2xl border bg-white/80 dark:bg-white/10 p-6 backdrop-blur-xl shadow-xl">
+            <div className="text-4xl font-extrabold text-primary">98%</div>
+            <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">Users report improved product discovery</div>
+          </Reveal>
+          <Reveal className="rounded-2xl border bg-white/80 dark:bg-white/10 p-6 backdrop-blur-xl shadow-xl" delay={40}>
+            <div className="text-4xl font-extrabold text-secondary">30s</div>
+            <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">Average time to complete analysis</div>
+          </Reveal>
+          <Reveal className="rounded-2xl border bg-white/80 dark:bg-white/10 p-6 backdrop-blur-xl shadow-xl" delay={80}>
+            <div className="text-4xl font-extrabold text-accent">100+</div>
+            <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">Curated products across shades and types</div>
+          </Reveal>
+        </div>
+      </section>
 
+      <section className="px-4 py-12 bg-white/40 dark:bg-white/5 backdrop-blur">
+        <div className="max-w-6xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/70 dark:bg-black/40 backdrop-blur-xl shadow-xl p-8 text-center">
+          <Reveal as="h3" className="text-2xl font-extrabold text-dark dark:text-white">Start Your Journey</Reveal>
+          <Reveal className="mt-2 text-sm text-gray-700 dark:text-gray-300" delay={40}>
+            Sign in and explore virtual try‑ons or run a quick skin analysis.
+          </Reveal>
+          <Reveal className="mt-6 flex items-center justify-center gap-3" delay={80}>
+            <Link href="/quiz" className="px-5 py-2.5 rounded-full bg-primary text-white font-semibold shine-sweep">Virtual Try‑On</Link>
+            <Link href="/take-selfie" className="px-5 py-2.5 rounded-full bg-secondary text-white font-semibold shine-sweep">AI Skin Analysis</Link>
+            <Link href="/shop" className="px-5 py-2.5 rounded-full bg-dark dark:bg-white text-white dark:text-dark font-semibold shine-sweep">Shop</Link>
+          </Reveal>
+        </div>
+      </section>
 
-      <section className="w-full mt-12 mb-10">
-        <FooterPager
-          hidePrevious
-          nextHref="/access"
-        />
+      <section className="px-4 py-12">
+        <div className="max-w-6xl mx-auto">
+          <FooterPager hidePrevious nextHref="/shop" />
+        </div>
       </section>
     </div>
   );

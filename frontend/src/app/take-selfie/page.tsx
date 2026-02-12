@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUI } from "@/context/UIContext";
+import Reveal from "@/components/common/Reveal";
 
 export default function TakeSelfie() {
   const [ready, setReady] = useState(false);
@@ -123,7 +124,7 @@ export default function TakeSelfie() {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
-      <div className="w-full max-w-3xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/85 dark:bg-black/50 backdrop-blur-xl shadow-2xl p-6 relative z-10">
+      <Reveal className="w-full max-w-3xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/85 dark:bg-black/50 backdrop-blur-xl shadow-2xl p-6 relative z-10">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-2xl font-extrabold text-dark dark:text-white">Take the Selfie</h2>
           <button
@@ -138,7 +139,7 @@ export default function TakeSelfie() {
             {requesting ? "Requesting camera permission…" : error ? `Error: ${error}` : "Allow camera access to begin."}
           </div>
         )}
-        <div className="rounded-xl overflow-hidden bg-black/20 dark:bg-black/50 mb-4 aspect-video flex items-center justify-center">
+        <Reveal className="rounded-xl overflow-hidden bg-black/20 dark:bg-black/50 mb-4 aspect-video flex items-center justify-center" delay={40}>
           <video ref={videoRef} className="w-full h-full object-cover" playsInline muted />
           {!ready && (
             <div className="absolute inset-0 flex items-center justify-center">
@@ -147,18 +148,18 @@ export default function TakeSelfie() {
               </div>
             </div>
           )}
-        </div>
+        </Reveal>
         <input ref={uploadInputRef} type="file" accept="image/*" className="hidden" onChange={onUploadChange} />
         {photoUrl && (
-          <div className="mt-4 rounded-xl overflow-hidden border border-white/30 dark:border-white/10">
+          <Reveal className="mt-4 rounded-xl overflow-hidden border border-white/30 dark:border-white/10" delay={60}>
             <img src={photoUrl} alt="Captured selfie" className="w-full max-h-[50vh] object-contain" />
-          </div>
+          </Reveal>
         )}
         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
           <button
             onClick={(e) => { handleRipple(e); startCamera(); }}
             disabled={requesting}
-            className="group camera-hover relative overflow-hidden h-12 w-full rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold hover:opacity-90 transition-opacity inline-flex items-center justify-center"
+            className="group camera-hover relative overflow-hidden h-12 w-full rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold shine-sweep inline-flex items-center justify-center"
           >
             {requesting ? "Requesting…" : ready ? (
               <span className="inline-flex items-center gap-2">
@@ -173,7 +174,7 @@ export default function TakeSelfie() {
           <button
             onClick={(e) => { handleRipple(e); capturePhoto(); }}
             disabled={!ready}
-            className={`group camera-hover relative overflow-hidden h-12 w-full rounded-lg bg-primary text-white text-sm font-semibold transition-opacity shadow-md inline-flex items-center justify-center ${ready ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"}`}
+            className={`group camera-hover relative overflow-hidden h-12 w-full rounded-lg bg-primary text-white text-sm font-semibold shadow-md shine-sweep inline-flex items-center justify-center ${ready ? "" : "opacity-60 cursor-not-allowed"}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-2">
               <rect x="3" y="7" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
@@ -184,7 +185,7 @@ export default function TakeSelfie() {
           </button>
           <button
             onClick={(e) => { handleRipple(e); triggerUpload(); }}
-            className="group gallery-hover relative overflow-hidden h-12 w-full rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold hover:opacity-90 transition-opacity inline-flex items-center justify-center"
+            className="group gallery-hover relative overflow-hidden h-12 w-full rounded-lg bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold shine-sweep inline-flex items-center justify-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-2">
               <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
@@ -197,7 +198,7 @@ export default function TakeSelfie() {
             onClick={(e) => { handleRipple(e); cropCenterSquare(); }}
             onDoubleClick={(e) => { handleRipple(e); if (originalPhotoUrl) setPhotoUrl(originalPhotoUrl); }}
             disabled={!photoUrl}
-            className={`relative overflow-hidden h-12 w-full rounded-lg bg-secondary text-white text-sm font-semibold transition-opacity shadow-md inline-flex items-center justify-center ${photoUrl ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"}`}
+            className={`relative overflow-hidden h-12 w-full rounded-lg bg-secondary text-white text-sm font-semibold shadow-md shine-sweep inline-flex items-center justify-center ${photoUrl ? "" : "opacity-60 cursor-not-allowed"}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-2">
               <path d="M7 3v10h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -209,7 +210,7 @@ export default function TakeSelfie() {
           <button
             onClick={(e) => { handleRipple(e); setPhotoUrl(null); setOriginalPhotoUrl(null); }}
             disabled={!photoUrl}
-            className={`group relative overflow-hidden h-12 w-full rounded-lg bg-rose-600 text-white text-sm font-semibold transition-opacity shadow-md inline-flex items-center justify-center ${photoUrl ? "hover:bg-rose-700" : "opacity-60 cursor-not-allowed"}`}
+            className={`group relative overflow-hidden h-12 w-full rounded-lg bg-rose-600 text-white text-sm font-semibold shadow-md shine-sweep inline-flex items-center justify-center ${photoUrl ? "" : "opacity-60 cursor-not-allowed"}`}
           >
             <span className={`inline-flex items-center gap-2 transition-opacity ${photoUrl ? "group-hover:opacity-0" : ""}`}>
               Delete Photo
@@ -243,7 +244,7 @@ export default function TakeSelfie() {
               }, 900);
             }}
             disabled={!photoUrl}
-            className={`group send-hover relative overflow-hidden h-12 w-full rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold transition-opacity shadow-md inline-flex items-center justify-center ${photoUrl ? "hover:opacity-90" : "opacity-60 cursor-not-allowed"}`}
+            className={`group send-hover relative overflow-hidden h-12 w-full rounded-lg bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold shadow-md shine-sweep inline-flex items-center justify-center ${photoUrl ? "" : "opacity-60 cursor-not-allowed"}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-2">
               <path d="M5 12h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -254,9 +255,9 @@ export default function TakeSelfie() {
         </div>
         {showNote && (
           <>
-            <p className="mt-4 text-xs text-center text-gray-700 dark:text-gray-300">
+            <Reveal as="p" className="mt-4 text-xs text-center text-gray-700 dark:text-gray-300" delay={80}>
               Please wait for the analysis to get the best results.
-            </p>
+            </Reveal>
             <div className="mt-3 flex items-center justify-between">
               <Link
                 href="/selfie-prep"
@@ -274,7 +275,7 @@ export default function TakeSelfie() {
             </div>
           </>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }
