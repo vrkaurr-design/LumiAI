@@ -11,7 +11,6 @@ export default function Access() {
   const { openLogin } = useUI();
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
-      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
       <div className="w-full max-w-md mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/65 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10">
         <h2 className="text-2xl font-extrabold text-center mb-4 text-dark dark:text-white text-glow-soft">
           Pursue Skin Analysis

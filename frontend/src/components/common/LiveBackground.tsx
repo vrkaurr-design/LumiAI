@@ -47,29 +47,29 @@ export default function LiveBackground() {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.floor(Math.sqrt(w * h) * 0.06);
+      const count = Math.floor(Math.sqrt(w * h) * 0.05);
       particlesRef.current = Array.from({ length: count }).map(() => {
         return {
           x: Math.random() * w,
           y: Math.random() * h,
-          r: Math.random() * 2.4 + 0.8,
-          vx: (Math.random() - 0.5) * 0.15,
-          vy: (Math.random() - 0.5) * 0.15,
+          r: Math.random() * 2.2 + 0.8,
+          vx: (Math.random() - 0.5) * 0.1,
+          vy: (Math.random() - 0.5) * 0.1,
           tw: Math.random() * 2 + 0.6,
           ph: Math.random() * Math.PI * 2,
-          hue: [330, 270, 170][Math.floor(Math.random() * 3)],
+          hue: [210, 200, 190][Math.floor(Math.random() * 3)],
         };
       });
-      const dCount = Math.floor(Math.sqrt(w * h) * 0.03);
+      const dCount = Math.floor(Math.sqrt(w * h) * 0.02);
       dropsRef.current = Array.from({ length: dCount }).map(() => {
-        const hue = [330, 270, 170][Math.floor(Math.random() * 3)];
+        const hue = [210, 200, 190][Math.floor(Math.random() * 3)];
         return {
           x: Math.random() * w,
           y: Math.random() * h * -0.2,
           vx: (Math.random() - 0.5) * 0.25,
-          vy: Math.random() * 0.6 + 0.4,
+          vy: Math.random() * 0.5 + 0.35,
           len: Math.random() * 40 + 30,
-          alpha: Math.random() * 0.4 + 0.35,
+          alpha: Math.random() * 0.3 + 0.25,
           hue,
         };
       });
@@ -196,15 +196,15 @@ export default function LiveBackground() {
 
         const x1 = w * 0.3 + Math.sin(t * 1.1) * w * 0.15 + px;
         const y1 = h * 0.35 + Math.cos(t * 1.5) * h * 0.12 + py;
-        drawBlob(x1, y1, rBase * 0.85, "rgba(255,107,157,0.8)", 0.55);
+        drawBlob(x1, y1, rBase * 0.85, "rgba(210,225,255,0.45)", 0.45);
 
         const x2 = w * 0.68 + Math.cos(t * 1.3) * w * 0.18 - px;
         const y2 = h * 0.32 + Math.sin(t * 1.7) * h * 0.14 - py;
-        drawBlob(x2, y2, rBase * 0.8, "rgba(192,108,255,0.8)", 0.5);
+        drawBlob(x2, y2, rBase * 0.8, "rgba(225,245,255,0.38)", 0.4);
 
         const x3 = w * 0.5 + Math.sin(t * 0.9) * w * 0.1 + px * 0.5;
         const y3 = h * 0.75 + Math.cos(t * 1.2) * h * 0.12 + py * 0.5;
-        drawBlob(x3, y3, rBase * 0.9, "rgba(78,205,196,0.75)", 0.45);
+        drawBlob(x3, y3, rBase * 0.9, "rgba(236,250,245,0.35)", 0.35);
 
         const rg = ctx.createRadialGradient(w * 0.5, h * 0.5, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.6);
         rg.addColorStop(0, "rgba(255,255,255,0.12)");
@@ -235,8 +235,8 @@ export default function LiveBackground() {
         }
         for (let d of dropsRef.current) {
           const lg = ctx.createLinearGradient(d.x, d.y - d.len, d.x, d.y);
-          lg.addColorStop(0, `hsla(${d.hue}, 80%, 85%, 0)`);
-          lg.addColorStop(1, `hsla(${d.hue}, 90%, 70%, ${d.alpha})`);
+          lg.addColorStop(0, `hsla(${d.hue}, 80%, 92%, 0)`);
+          lg.addColorStop(1, `hsla(${d.hue}, 85%, 75%, ${d.alpha})`);
           ctx.fillStyle = lg;
           ctx.fillRect(d.x - 0.9, d.y - d.len, 1.8, d.len);
           d.vy += 0.008;
@@ -249,7 +249,7 @@ export default function LiveBackground() {
             d.vy = Math.random() * 0.6 + 0.4;
             d.len = Math.random() * 40 + 30;
             d.alpha = Math.random() * 0.4 + 0.35;
-            d.hue = [330, 270, 170][Math.floor(Math.random() * 3)];
+            d.hue = [210, 200, 190][Math.floor(Math.random() * 3)];
           }
         }
         ctx.globalCompositeOperation = "source-over";

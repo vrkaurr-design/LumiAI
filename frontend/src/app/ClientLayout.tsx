@@ -1,14 +1,12 @@
 "use client";
-import SkinShadeBackground from "@/components/common/SkinShadeBackground";
-import LiveBackground from "@/components/common/LiveBackground";
+import ProBackground from "@/components/common/ProBackground";
 import Header from "@/components/common/Header";
 import { UIProvider } from "@/context/UIContext";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <UIProvider>
-      <SkinShadeBackground />
-      <LiveBackground />
+      <ProBackground />
       <div className="relative z-20">
         <Header />
       </div>

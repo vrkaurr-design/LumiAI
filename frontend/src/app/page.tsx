@@ -7,15 +7,14 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
       <section className="relative px-4 pt-20 pb-16 text-center">
-        <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
         <Reveal className="max-w-5xl mx-auto space-y-6" variant="fade">
           <Reveal
             as="h1"
-            className="font-semibold whitespace-nowrap text-4xl sm:text-5xl md:text-7xl tracking-tight leading-tight bg-gradient-to-r from-secondary via-primary to-accent bg-clip-text text-transparent text-shadow-under"
+          className="font-semibold whitespace-nowrap text-4xl sm:text-5xl md:text-7xl tracking-tight leading-tight text-dark dark:text-white text-shadow-under"
           >
             Future of Beauty Tech
           </Reveal>
-          <Reveal className="mx-auto h-1.5 w-28 rounded-full bg-gradient-to-r from-secondary via-primary to-accent shadow-md" delay={40} />
+        <Reveal className="mx-auto h-1.5 w-28 rounded-full bg-primary shadow-md" delay={40} />
           <Reveal
             as="p"
             className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 max-w-2xl mx-auto text-glow-soft"

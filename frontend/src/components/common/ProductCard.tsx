@@ -1,6 +1,8 @@
 import Reveal from "@/components/common/Reveal";
 import Link from "next/link";
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { useAppStore } from "@/store";
 type Product = {
   id: string;
   name: string;
@@ -17,6 +19,8 @@ type Product = {
   ratingCount?: number;
 };
 export default function ProductCard({ product, delay = 0 }: { product: Product; delay?: number }) {
+  const addToCart = useAppStore((s) => s.addToCart);
+  const router = useRouter();
   const chip = useMemo(() => {
     if (product.category === "makeup" && product.shade) return product.shade;
     if (product.category === "skincare" && product.skinType) return product.skinType;
@@ -29,26 +33,26 @@ export default function ProductCard({ product, delay = 0 }: { product: Product; 
     return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   }, [product.category]);
   return (
-    <Reveal className="rounded-2xl border bg-white/80 dark:bg-white/10 dark:text-white backdrop-blur-xl p-4 shadow-xl card-pop tilt-hover" delay={delay}>
-      <div className="flex items-start gap-3">
-        <img src={bgSvg} alt={product.type} className="w-12 h-12 rounded-xl border border-white/30 dark:border-white/10" />
-        <div className="flex-1">
+    <Reveal className="rounded-2xl border bg-white/80 dark:bg-white/10 dark:text-white backdrop-blur-xl p-6 shadow-xl card-pop tilt-hover overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-2xl min-h-[220px]" delay={delay}>
+      <div className="flex items-start gap-4">
+        <img src={bgSvg} alt={product.type} className="w-16 h-16 rounded-xl border border-white/30 dark:border-white/10 flex-shrink-0" />
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <div className="font-bold">{product.name}</div>
+            <div className="font-bold text-lg">{product.name}</div>
             {product.badge && (
               <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${product.badge === "bestseller" ? "bg-secondary/30 text-secondary" : "bg-primary/30 text-primary"}`}>
                 {product.badge}
               </span>
             )}
           </div>
-          <div className="text-xs text-gray-700 dark:text-gray-300">{product.detail}</div>
-          <div className="mt-2 flex items-center justify-between">
-            <div className="text-sm font-semibold">{product.currency ?? "₹"}{product.price}</div>
+          <div className="text-sm text-gray-700 dark:text-gray-300">{product.detail}</div>
+          <div className="mt-3 flex items-center justify-between">
+            <div className="text-base font-semibold">{product.currency ?? "₹"}{product.price}</div>
             <div className="px-2 py-1 rounded-md bg-white/70 dark:bg-white/10 text-xs font-semibold capitalize">{chip}</div>
           </div>
           <div className="mt-2 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="flex">
+              <div className="flex text-[13px]" aria-label="Average rating">
                 {[0, 1, 2, 3, 4].map((i) => (
                   <span key={i} className={i < Math.round(product.ratingAvg ?? 0) ? "text-yellow-500" : "text-gray-300"}>★</span>
                 ))}
@@ -57,11 +61,27 @@ export default function ProductCard({ product, delay = 0 }: { product: Product; 
             </div>
             <div className="text-xs text-gray-700 dark:text-gray-300">{typeof product.stock === "number" ? `In stock: ${product.stock}` : ""}</div>
           </div>
-          <div className="mt-3 flex items-center gap-2">
-            <Link href={`/shop#${product.id}`} className="px-3 py-1.5 rounded-md bg-dark dark:bg-white text-white dark:text-dark text-xs font-semibold shine-sweep">
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <Link href={`/shop#${product.id}`} className="px-3 py-1.5 rounded-md bg-dark dark:bg-white text-white dark:text-dark text-sm font-semibold shine-sweep">
               View
             </Link>
-            <button type="button" className="px-3 py-1.5 rounded-md bg-gradient-to-r from-secondary to-primary text-white text-xs font-semibold shine-sweep">
+            <button
+              type="button"
+              onClick={() => {
+                addToCart({
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  currency: product.currency ?? "₹",
+                  detail: product.detail,
+                  type: product.type,
+                  shade: product.shade,
+                  skinType: product.skinType,
+                });
+                router.push("/cart");
+              }}
+              className="px-3 py-1.5 rounded-md bg-gradient-to-r from-secondary to-primary text-white text-sm font-semibold shine-sweep"
+            >
               Buy Now
             </button>
           </div>

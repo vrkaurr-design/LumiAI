@@ -86,7 +86,6 @@
  
    return (
      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
-       <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-white via-gray-50 to-gray-100" />
        <Reveal className="w-full mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/80 dark:bg-black/45 backdrop-blur-xl shadow-2xl p-6 relative z-10" variant="fade">
          <Reveal as="h1" className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">
            Shop Perfect Corp Products
@@ -102,13 +101,13 @@
              placeholder="Search products"
              className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary text-dark dark:text-white shine-sweep"
            />
-           <div className="grid grid-cols-3 gap-2">
-             <select value={cat} onChange={(e) => setCat(e.target.value as any)} className="rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
+          <div className="grid grid-cols-3 gap-2">
+            <select value={cat} onChange={(e) => setCat(e.target.value as any)} className="w-full rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
                <option value="all">All</option>
                <option value="makeup">Makeup</option>
                <option value="skincare">Skincare</option>
              </select>
-             <select value={type} onChange={(e) => setType(e.target.value as any)} className="rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
+            <select value={type} onChange={(e) => setType(e.target.value as any)} className="w-full rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
                <option value="all">Type</option>
                <option value="lipstick">Lipstick</option>
                <option value="foundation">Foundation</option>
@@ -120,7 +119,7 @@
                <option value="masks">Masks</option>
                <option value="moisturiser">Moisturiser</option>
              </select>
-             <select value={tone} onChange={(e) => setTone(e.target.value as any)} className="rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
+            <select value={tone} onChange={(e) => setTone(e.target.value as any)} className="w-full rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
                <option value="all">Undertone</option>
                <option value="warm">Warm</option>
                <option value="cool">Cool</option>
@@ -128,7 +127,7 @@
              </select>
            </div>
            <div className="grid grid-cols-3 gap-2">
-             <select value={skin} onChange={(e) => setSkin(e.target.value as any)} className="rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
+            <select value={skin} onChange={(e) => setSkin(e.target.value as any)} className="w-full rounded-md px-3 py-2 bg-white/80 dark:bg-white/10 shine-sweep">
                <option value="all">Skin Type</option>
                <option value="dry">Dry</option>
                <option value="oily">Oily</option>
@@ -151,7 +150,7 @@
            </div>
          </div>
  
-         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5 items-stretch auto-rows-fr">
            {filtered.map((p, i) => (
              <ProductCard key={p.id} product={p as any} delay={i * 30} />
            ))}

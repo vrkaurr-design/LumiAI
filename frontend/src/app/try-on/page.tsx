@@ -220,7 +220,7 @@ export default function TryOn() {
           <div className="bubble" style={{ width: 260, height: 260, left: "8%", top: "70%" }} />
         </div>
       )}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-indigo-900/25 via-slate-800/20 to-indigo-700/15" />
+      
       <div className="w-full mx-auto rounded-2xl border border-white/20 bg-black/40 backdrop-blur-xl shadow-2xl p-6 relative z-10">
         <h1 className="text-3xl font-extrabold text-center mb-2 text-white">Virtual Try‑On Studio</h1>
         <p className="text-center text-sm text-gray-300 mb-6">

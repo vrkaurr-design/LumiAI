@@ -132,7 +132,6 @@ export default function SkinAnalysis() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 relative">
-      <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-br from-secondary/35 via-primary/25 to-pink-200/10 mix-blend-soft-light" />
       <Reveal className="w-full max-w-4xl mx-auto rounded-2xl border border-white/20 dark:border-white/10 bg-white/75 dark:bg-black/40 backdrop-blur-xl shadow-xl p-6 relative z-10" variant="fade">
         <Reveal as="h1" className="text-3xl font-extrabold text-center mb-2 text-primary text-pop-bright">
           AI Skin Analysis

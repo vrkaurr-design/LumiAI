@@ -12,11 +12,11 @@ export default function SkinShadeBackground() {
     if (!ctx) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const centers = [
-      { x: 0.28, y: 0.32, r: 0.62, color: "rgba(251,232,211,0.9)", dx: 0.0003, dy: -0.0002 },
-      { x: 0.68, y: 0.38, r: 0.58, color: "rgba(243,214,192,0.85)", dx: -0.00025, dy: 0.00025 },
-      { x: 0.45, y: 0.75, r: 0.68, color: "rgba(233,194,168,0.8)", dx: 0.0002, dy: 0.00015 },
-      { x: 0.18, y: 0.66, r: 0.55, color: "rgba(214,165,142,0.75)", dx: -0.0002, dy: -0.0001 },
+  const centers = [
+      { x: 0.28, y: 0.32, r: 0.62, color: "rgba(240,245,255,0.55)", dx: 0.00028, dy: -0.00018 },
+      { x: 0.68, y: 0.38, r: 0.58, color: "rgba(235,240,248,0.5)", dx: -0.00022, dy: 0.00022 },
+      { x: 0.45, y: 0.75, r: 0.68, color: "rgba(245,250,255,0.48)", dx: 0.00018, dy: 0.00012 },
+      { x: 0.18, y: 0.66, r: 0.55, color: "rgba(235,245,250,0.45)", dx: -0.00018, dy: -0.00009 },
     ];
 
     const resize = () => {
@@ -32,13 +32,13 @@ export default function SkinShadeBackground() {
     window.addEventListener("resize", resize);
 
     const drawNoise = (w: number, h: number) => {
-      const density = Math.floor(Math.sqrt(w * h) * 0.015);
+      const density = Math.floor(Math.sqrt(w * h) * 0.01);
       ctx.globalAlpha = 0.06;
       for (let i = 0; i < density; i++) {
         const x = Math.random() * w;
         const y = Math.random() * h;
         const s = Math.random() * 2 + 0.8;
-        const c = `rgba(${220 + Math.floor(Math.random() * 20)},${190 + Math.floor(Math.random() * 20)},${170 + Math.floor(Math.random() * 20)},1)`;
+        const c = `rgba(${240 + Math.floor(Math.random() * 10)},${240 + Math.floor(Math.random() * 10)},${240 + Math.floor(Math.random() * 10)},1)`;
         ctx.fillStyle = c;
         ctx.fillRect(x, y, s, s);
       }

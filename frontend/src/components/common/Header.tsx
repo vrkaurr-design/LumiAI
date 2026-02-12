@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useUI } from "@/context/UIContext";
+import { useAppStore } from "@/store";
 
 export default function Header() {
-  const { openLogin } = useUI();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const count = useAppStore((s) => s.cart.reduce((n, it) => n + it.quantity, 0));
 
   const links = [
     { href: "/", label: "Home" },
@@ -15,6 +15,7 @@ export default function Header() {
     { href: "/style-advisor", label: "Gen AI" },
     { href: "/shop", label: "Shop" },
     { href: "/feedback", label: "Reviews" },
+    { href: "/cart", label: `Cart${count > 0 ? ` (${count})` : ""}` },
   ];
 
   const isActive = (href: string) => {
@@ -47,14 +48,22 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={openLogin}
-            aria-label="Open authentication"
-            title="Sign in or create your account"
+          <Link
+            href="/login"
+            aria-label="Open sign in page"
+            title="Sign in"
             className="hidden sm:inline px-4 py-2 rounded-full text-sm font-semibold bg-white/20 dark:bg-white/10 text-dark dark:text-white backdrop-blur shine-sweep"
           >
             Sign In
-          </button>
+          </Link>
+          <Link
+            href="/signup"
+            aria-label="Open sign up page"
+            title="Create an account"
+            className="hidden sm:inline px-4 py-2 rounded-full text-sm font-semibold bg-primary text-white shine-sweep"
+          >
+            Sign Up
+          </Link>
           <button
             onClick={() => setOpen((s) => !s)}
             aria-label="Open menu"
@@ -82,12 +91,20 @@ export default function Header() {
                 {l.label}
               </Link>
             ))}
-            <button
-              onClick={() => { setOpen(false); openLogin(); }}
+            <Link
+              href="/login"
+              onClick={() => setOpen(false)}
               className="px-3 py-2 rounded-md bg-gradient-to-r from-secondary to-primary text-white font-semibold"
             >
               Sign In
-            </button>
+            </Link>
+            <Link
+              href="/signup"
+              onClick={() => setOpen(false)}
+              className="px-3 py-2 rounded-md bg-primary text-white font-semibold"
+            >
+              Sign Up
+            </Link>
           </div>
         </div>
       )}
