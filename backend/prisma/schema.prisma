@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://lumiai:password@localhost:5432/lumiai?schema=public"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  MAKEUP
+  SKINCARE
+}
+
+enum Tone {
+  WARM
+  COOL
+  NEUTRAL
+}
+
+enum SkinType {
+  DRY
+  OILY
+  COMBINATION
+  NORMAL
+  SENSITIVE
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders       Order[]
+  skinAnalyses SkinAnalysis[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  sku         String   @unique
+  name        String
+  category    Category
+  type        String
+  description String   @db.Text
+  detail      String   @db.Text
+  price       Decimal  @db.Decimal(10, 2)
+  currency    String   @default("INR")
+
+  shade    Tone?
+  skinType SkinType?
+
+  badge       String?
+  stock       Int      @default(0)
+  imageUrl    String?
+  images      String[]
+  ratingAvg   Float    @default(0)
+  ratingCount Int      @default(0)
+
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([category, type])
+  @@index([shade, skinType])
+  @@index([sku])
+  @@map("products")
+}
+
+model Order {
+  id          String @id @default(uuid())
+  orderNumber String @unique
+  userId      String
+  user        User   @relation(fields: [userId], references: [id])
+
+  subtotal Decimal @db.Decimal(10, 2)
+  tax      Decimal @db.Decimal(10, 2)
+  shipping Decimal @db.Decimal(10, 2)
+  total    Decimal @db.Decimal(10, 2)
+  currency String  @default("INR")
+
+  status OrderStatus @default(PENDING)
+
+  shippingAddress String? @db.Text
+  billingAddress  String? @db.Text
+
+  paymentMethod   String?
+  paymentIntentId String?
+
+  notes String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id      String @id @default(uuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  name     String
+  sku      String
+  price    Decimal @db.Decimal(10, 2)
+  quantity Int
+  subtotal Decimal @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model SkinAnalysis {
+  id     String  @id @default(uuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  imageUrl String?
+
+  tone       Tone
+  skinType   SkinType
+  confidence Float?
+
+  rgbR Int
+  rgbG Int
+  rgbB Int
+
+  variance   Float?
+  brightness Float?
+
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([tone, skinType])
+  @@map("skin_analyses")
+}
