@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  SKINCARE
+  MAKEUP
+  HAIRCARE
+  FRAGRANCE
+  ACCESSORIES
+}
+
+enum Tone {
+  WARM
+  COOL
+  NEUTRAL
+}
+
+enum SkinType {
+  DRY
+  OILY
+  COMBINATION
+  SENSITIVE
+  NORMAL
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  analyses  SkinAnalysis[]
+  orders    Order[]
+}
+
+model Product {
+  id         String     @id @default(uuid())
+  sku        String     @unique
+  name       String
+  category   Category
+  type       String
+  description String
+  detail     String
+  price      Decimal
+  currency   String?
+  shade      Tone?
+  skinType   SkinType?
+  badge      String?
+  stock      Int        @default(0)
+  imageUrl   String?
+  images     String[]
+  isFeatured Boolean    @default(false)
+  isActive   Boolean    @default(true)
+  ratingAvg  Float      @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  orderItems OrderItem[]
+  @@index([category])
+  @@index([type])
+  @@index([isFeatured])
+  @@index([isActive])
+}
+
+model SkinAnalysis {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  imageUrl   String
+  tone       Tone
+  skinType   SkinType
+  confidence Float
+  rgbR       Int
+  rgbG       Int
+  rgbB       Int
+  variance   Float
+  brightness Float
+  description String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  @@index([userId])
+  @@index([tone])
+  @@index([skinType])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  subtotal        Decimal
+  tax             Decimal
+  shipping        Decimal
+  total           Decimal
+  status          OrderStatus @default(PENDING)
+  paymentIntentId String?
+  paymentMethod   String?
+  shippingAddress String?
+  billingAddress  String?
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  name      String
+  sku       String
+  price     Decimal
+  quantity  Int
+  subtotal  Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([orderId])
+  @@index([productId])
+}

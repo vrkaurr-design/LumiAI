@@ -1,18 +1,56 @@
- "use client";
- import Link from "next/link";
- import Reveal from "@/components/common/Reveal";
- import { useAppStore } from "@/store";
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Reveal from "@/components/common/Reveal";
+import Spinner from "@/components/common/Spinner";
+import { useAppStore } from "@/store";
+import { ordersService } from "@/services/orders.service";
+import { paymentService } from "@/services/payment.service";
  
  export default function CartPage() {
+  const router = useRouter();
    const { cart, setQuantity, removeFromCart, clearCart } = useAppStore((s) => ({
      cart: s.cart,
      setQuantity: s.setQuantity,
      removeFromCart: s.removeFromCart,
      clearCart: s.clearCart,
    }));
+  const [loading, setLoading] = useState(false);
 
    const subtotal = cart.reduce((sum, it) => sum + it.price * it.quantity, 0);
    const currency = cart[0]?.currency ?? "₹";
+
+  const handleCheckout = async () => {
+    setLoading(true);
+
+    try {
+      const orderData = {
+        items: cart.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+        })),
+        shippingAddress: "123 Main St",
+      };
+
+      const order = await ordersService.createOrder(orderData);
+
+      const payment = await paymentService.createPaymentIntent(order.id, order.total);
+
+      const confirmation = await paymentService.confirmPayment(payment.paymentIntentId, order.id);
+
+      if (confirmation.success) {
+        clearCart();
+        router.push(`/order-confirmation/${order.id}`);
+      } else {
+        alert("Payment failed. Please try again.");
+      }
+    } catch (error: any) {
+      alert(error?.message || "Checkout failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
    return (
      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
@@ -107,10 +145,18 @@
                </button>
                <button
                  type="button"
-                 onClick={() => alert("Order placed successfully")}
-                 className="px-5 py-2.5 rounded-full bg-gradient-to-r from-secondary to-primary text-white font-semibold shine-sweep"
+                onClick={handleCheckout}
+                disabled={loading || cart.length === 0}
+                className="px-5 py-2.5 rounded-full bg-gradient-to-r from-secondary to-primary text-white font-semibold shine-sweep disabled:opacity-60"
                >
-                 Order Now
+                {loading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Spinner size={16} />
+                    Processing...
+                  </span>
+                ) : (
+                  "Checkout"
+                )}
                </button>
              </div>
            </>
