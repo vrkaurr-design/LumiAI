@@ -6,7 +6,7 @@ AI-Powered Beauty & Skincare E-commerce Platform with Virtual Try-On, Skin Analy
 
 LumiAI is a full-stack application combining a **Next.js frontend** for virtual beauty experiences and a **NestJS backend** with AI-powered skin analysis, product recommendations, and e-commerce functionality.
 
-### Features
+## Features
 
 **Frontend**
 - Virtual try-on and AI skin analysis flows
@@ -28,21 +28,19 @@ LumiAI is a full-stack application combining a **Next.js frontend** for virtual 
 ## Tech Stack
 
 ### Frontend
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Animations**: GSAP
+- **Styling**: Tailwind CSS with custom animations
+- **State**: Zustand (cart) + React Context (UI)
+- **Storage**: sessionStorage (auth/analysis) + localStorage (cart)
 
 ### Backend
 - **Framework**: NestJS (Node.js)
-- **Language**: TypeScript
 - **Database**: PostgreSQL with Prisma ORM
-- **Caching**: Redis
-- **Authentication**: JWT with Passport
-- **File Processing**: Sharp for image optimization
-- **API Docs**: Swagger/OpenAPI
-- **Testing**: Jest, Supertest, Artillery
+- **Cache**: Redis
+- **Auth**: JWT with Passport
+- **File Processing**: Sharp, Canvas
+- **Docs**: Swagger/OpenAPI
 
 ## Prerequisites
 
@@ -50,32 +48,30 @@ Before running this project, ensure you have the following installed:
 
 - **Node.js**: >= 18.17.0
 - **npm**: >= 9.0.0 (comes with Node.js)
-- **Docker & Docker Compose** (recommended for PostgreSQL and Redis)
-
-**OR (for local development without Docker):**
-- **PostgreSQL**: >= 15
-- **Redis**: >= 7
+- **PostgreSQL**: >= 15 (if running backend locally)
+- **Redis**: >= 7 (if running backend locally)
 
 ## Quick Start
 
-### Option 1: Using Docker (Recommended)
+### Frontend
 
 ```bash
-# 1. Clone the repository and navigate to the backend
+cd frontend
+npm install
+npm run dev
+```
+
+App runs at: http://localhost:3000
+
+### Backend
+
+Option 1: Docker (recommended)
+```bash
 cd backend
-
-# 2. Create environment file
-cp .env.example .env
-
-# 3. Start services (PostgreSQL, Redis, and Backend)
+cp .env.example .env  # Edit with your settings
 docker-compose up -d
-
-# 4. Run database migrations and seed data
 docker-compose exec app npm run prisma:migrate
 docker-compose exec app npm run prisma:seed
-
-# Backend API is now running at http://localhost:3000/api/v1
-# Swagger docs available at http://localhost:3000/api/docs
 ```
 
 ```bash
