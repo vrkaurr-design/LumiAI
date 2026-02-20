@@ -9,7 +9,7 @@ type Product = {
   category: "makeup" | "skincare";
   type: string;
   shade?: "warm" | "cool" | "neutral";
-  skinType?: "dry" | "oily" | "combination";
+  skinType?: "dry" | "oily" | "combination" | "sensitive";
   price: number;
   currency?: "₹" | "$" | "€";
   detail: string;

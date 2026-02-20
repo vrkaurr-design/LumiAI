@@ -14,7 +14,7 @@ export default function Home() {
           >
             Future of Beauty Tech
           </Reveal>
-        <Reveal className="mx-auto h-1.5 w-28 rounded-full bg-primary shadow-md" delay={40} />
+        <Reveal className="mx-auto h-1.5 w-28 rounded-full bg-primary shadow-md" delay={40}>&nbsp;</Reveal>
           <Reveal
             as="p"
             className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 max-w-2xl mx-auto text-glow-soft"

@@ -10,7 +10,7 @@ export type CartItem = {
   detail?: string;
   type?: string;
   shade?: "warm" | "cool" | "neutral";
-  skinType?: "dry" | "oily" | "combination";
+  skinType?: "dry" | "oily" | "combination" | "sensitive";
   quantity: number;
 };
 

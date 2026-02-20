@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category, Tone, SkinType, Product } from '@prisma/client';
+import { Category, Tone, SkinType } from '@prisma/client';
 
-export class ProductEntity implements Product {
+export class ProductEntity {
     @ApiProperty({ example: 'uuid-1234' })
     id: string;
 
@@ -15,7 +15,7 @@ export class ProductEntity implements Product {
     description: string;
 
     @ApiProperty()
-    price: number; // Decimal in Prisma is string in JS usually, but number here for API
+    price: number;
 
     @ApiProperty({ enum: Category })
     category: Category;
@@ -23,14 +23,11 @@ export class ProductEntity implements Product {
     @ApiProperty()
     type: string;
 
-    @ApiProperty({ required: false })
-    shade: string | null;
+    @ApiProperty({ enum: Tone, required: false })
+    shade: Tone | null;
 
     @ApiProperty({ required: false })
     hexColor: string | null;
-
-    @ApiProperty({ enum: Tone, required: false })
-    tone: Tone | null;
 
     @ApiProperty({ enum: SkinType, required: false })
     skinType: SkinType | null;
